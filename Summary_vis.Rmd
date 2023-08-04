@@ -367,7 +367,7 @@ gf_density(~body_mass_g, data= penguins)
 
 ```
 
-## Bar charts
+## Bar charts of counts or proportions
 
 ### Bar chart with one categorical variable
 
@@ -398,7 +398,74 @@ gf_props(~island, position= "stack",
          fill = ~species, data= penguins)
 ```
 
-This helps us to see that almost half of the data were collected on Biscoe island.
+By plotting proportional data, we can now see that nearly 50% of these penguin data have come from Biscoe Island. This is because the Biscoe Island bar is nearly at 0.5 which is 50%.
+
+## Bar charts and boxplots
+### More complex bar charts
+It is very common to add symbols, usually lines above and below each bar, to indicate the amount of variation in the data. Typically these represent the _standard error_ around the mean. There are better ways of displaying this type of data such as boxplots (see below) but as bar charts are so common and you may be asked to present one, this is how to do it in R. Suppose you want to display the mean weight of the different species of penguin +/- their standard error (SE). You need to create a table of data like this:
+
+```{r barchart_basics, exercise = TRUE}
+spp_favstats  <- favstats(body_mass_g ~ species, data = penguins)
+print(spp_favstats)
+```
+
+This gives us a column called `mean` containing the mean weight of each species (in g), and a column called `sd` with the standard deviation. Recall that you can calculate the SE by dividing the sd by the square root of the number of records, held in column `n`, simply as:
+
+```{r barchart_se_calc-setup}
+spp_favstats  <- favstats(body_mass_g ~ species, data = penguins)
+```
+
+```{r barchart_se_calc, exercise = TRUE}
+spp_favstats$se <- spp_favstats$sd / sqrt(spp_favstats$n)
+print(spp_favstats)
+```
+
+Now build up your barchart in steps. First create the barchart, using `gf_col()` which can accept any numeric variable on the left side of the `~` and expects a categorical variable on the right side. Here we have the mean weight on the left (continuous response) against the species (categorical explanatory):
+
+```{r barchart_simple-setup}
+spp_favstats  <- favstats(body_mass_g ~ species, data = penguins)
+spp_favstats$se <- spp_favstats$sd / sqrt(spp_favstats$n)
+```
+
+```{r barchart_simple, exercise = TRUE}
+gf_col(mean ~ species, data = spp_favstats)
+```
+
+Now, to add the standard error bar, we have to specify that we want a bar above (+) and below (-) the mean, using the `gf_error()` function, which we add to the plot:
+
+```{r barchart_se-setup}
+spp_favstats  <- favstats(body_mass_g ~ species, data = penguins)
+spp_favstats$se <- spp_favstats$sd / sqrt(spp_favstats$n)
+```
+
+```{r barchart_se, exercise = TRUE}
+gf_col(mean ~ species, data = spp_favstats) %>%
+  gf_errorbar((mean + se) + (mean - se) ~ species)
+```
+
+by default the error bars are a bit to wide, so use the `width` option to reduce their size, and smarten the plot with `gf_theme()`:
+
+```{r barchart_smarter-setup}
+spp_favstats  <- favstats(body_mass_g ~ species, data = penguins)
+spp_favstats$se <- spp_favstats$sd / sqrt(spp_favstats$n)
+```
+
+```{r barchart_smarter, exercise = TRUE}
+gf_col(mean ~ species, data = spp_favstats) %>%
+  gf_errorbar((mean + se) + (mean - se) ~ species, width = 0.2) %>% 
+  gf_theme(theme_classic())
+```
+
+### Boxplots
+One weakness of barplots is that they do not give a full understanding of the variation around the mean, especially as by default they start at zero, as in the above plot, which can make the error bars hard to see (depends on noise in your data sample size, n) and they don't show outliers, or whether the distribution is skewed. Boxplots are therefore the recommended alternative, and are easy to create from the raw data:
+
+```{r boxplot_example, exercise = TRUE}
+gf_boxplot(body_mass_g ~ species, data = penguins) %>% 
+  gf_theme(theme_classic())
+```
+
+This gives you a better understanding of the data: Adelie and Chinstrap penguins have lower body mass (although there are a couple of outliers in the latter). The distribution of data looks reasonably symmetrical for all three species. The horizontal line is your **median** value, 50% of your values fall within the box, and 75% within the 'whiskers', The dots are outliers. This diagram helps you understand what the lines and boxes represent in a boxplot <https://r-graph-gallery.com/boxplot>
+
 
 
 ## Visualizing multiple variables
