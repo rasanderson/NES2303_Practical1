@@ -470,7 +470,8 @@ This gives you a better understanding of the data: Adelie and Chinstrap penguins
 
 ## Visualizing multiple variables
 
-When visualizing multiple variables we might want to start introducing more shapes or colours into our plots, not only does this make the visualisation more interesting but it can help us to better understand patterns in the data.
+When we have two or more variables that are quantitative data, we are often interested in the relationship between those variables. We can plot quantitative data (count data or measurements) together using the gf_point() function to get a scatterplot. In our pengiun data set, they have measured bill length and bill depth. We can look at the relationship between these two variables by plotting bill_depth_mm on the y-axis and bill_length_mm on the x-axis.
+
 Remember that the formula for plotting two variables (one on each axis) is: 
 
 $$\text{plot type(variable_y ~ variable_x, data= dataset)}$$
@@ -478,25 +479,39 @@ $$\text{plot type(variable_y ~ variable_x, data= dataset)}$$
 
 #### Comparing numeric variables most usually involves plotting one against another.
 Run the code below to see what  the variables bill length and bill depth look like plotted against one another. 
-We can add additional information to this plot using the colour and shape arguments.
-Can you modify the below code to 
-
-  1. Colour the points according to Species
-  2. Size the points according to body mass
 
 ```{r penguin-bill, exercise=TRUE, exercise.completion=FALSE}
 gf_point(bill_depth_mm ~ bill_length_mm, 
          data= penguins)
 ```
 
+We can see from the scatterplot that there is a lot data here but the plotting doesn't distinguish between the species so we don't know if the relationship between bill_depth_mm and bill_length_mm is the same for each species. We can produce a more informative informative plot that clearly shows the trends within each species by adding colour.
 
-```{r penguin-bill-solution}
-# colour by species, size by body_mass
+```{r penguin-bill-colour, exercise = TRUE}
+# colour by species
 gf_point(bill_depth_mm ~ bill_length_mm, 
-         colour = ~species, size = ~body_mass_g, 
+         colour = ~species,  
          data= penguins)
-
 ```
+
+You have just created a plot which include colour and we can now see that there are differences in the relationship between bill_depth_mm and bill_length_mm for the different species. But we can make this figure tidier, more professional looking and get it "publication" ready.
+
+```{r penguin-bill-publication, exercise = TRUE}
+# colour by species
+gf_point(bill_depth_mm ~ bill_length_mm, 
+         colour = ~species,  
+         data= penguins) %>% 
+  gf_theme(theme_classic())
+```
+
+
+
+Can you modify the code to 
+
+  1. Colour the points according to Species
+  2. Size the points according to body mass
+
+(click the "Solution" button to get the answer, but try it yourself first!)
 
 Now we have an informative plot that clearly shows the trends within each species.
 You have just created a really sophisticated and informative plot.
