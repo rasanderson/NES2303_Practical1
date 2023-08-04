@@ -338,20 +338,22 @@ knitr::include_graphics("images/data-to-viz.png")
 ```
 
 
-## Visualizing individual variables
+## Visualizing single variables
+
+Remember that a variable can be continuous numeric data (1.34, 5.87, 0.23 etc.) or categorical (SiteA, SiteA, SiteA, SiteB, SiteB, SiteC etc.). The way in which you may want to visualise these data is slightly different. Categorical variables are sometimes summarised in bar charts, but here we will focus on numeric data.
 
 ### Numeric data
 
-When investigating a numerical variable we might want to look at the distribution of values (we will talk more about why this is important in the summary statistics lesson) using plots which we could do in a variety of different ways. 
+When investigating a numerical variable we might want to look at the distribution of values (we will talk more about why this is important in Practical 1) using plots which we could do in a variety of different ways. We can use a the `gf_historgram()` function to produce a histogram which takes our numeric variable and cuts our data into "bins" and counts the frequency each value occurs in those bins.
 
 ```{r simple_histogram, exercise=TRUE}
 gf_histogram(~body_mass_g, data = penguins)
 ```
 
-Note that the plot also came with a warning message (remember we had a couple of data points with and NA value) just to let us know that there are some data that were missing and so aren't included in the plot because our plotting function didn't know where to put them.
+Note that the plot also came with a warning message (remember we had a couple of data points with an NA value) just to let us know that there are some data that were missing and so aren't included in the plot because our plotting function didn't know where to put them.
 Going forward these error messages have been hidden from the output so that we can focus purely on the visualizations but it is important to note why they appear. 
 
-Can you alter the below code to show a "density" plot rather than a "histogram"? 
+We can represent the distribution of values in another way by doing a density plot using `gf_density()` function. A density plot is similar to a histogram but the data are a smoothed version. Notice the y-axis has now changed and is showing a probability density instead but the interpretation of how those data are distributed is still the same. Try modifying the following code to use the `gf_density()` function to see the difference:
 
 ```{r penguin-density, exercise=TRUE, exercise.completion=FALSE}
 # density plot of penguin body mass 
@@ -365,24 +367,17 @@ gf_density(~body_mass_g, data= penguins)
 
 ```
 
+## Bar charts
 
-### Categorical data
+### Bar chart with one categorical variable
 
-For categorical data we might want to look at how many observations of each category we have using a bar chart
+For categorical data we might want to look at how many observations of each category we have using a bar chart. A bar chart is a good way to look at the numeric values for categorical data. Each group is represented by a bar and there are gaps between bars which is a key distinction between a bar chart and histogram. Here we are just looking at a single categorical variable, `island`, and counting how many records we have for each island:
 
 ```{r simple_bar, exercise=TRUE}
 gf_bar(~island, data= penguins)
 ```
 
-
-## Visualizing multiple variables
-
-When visualizing multiple variables we might want to start introducing more shapes or colours into our plots, not only does this make the visualisation more interesting but it can help us to better understand patterns in the data.
-Remember that the formula for plotting two variables (one on each axis) is: 
-
-$$\text{plot type(variable_y ~ variable_x, data= dataset)}$$
-
-#### Comparing multiple categorical variables 
+### Bar charts with multiple categorical variables 
 
 We can take our bar chart that showed how many penguins were recorded on each island and we can add information about the species. Using the position argument we can create different plots that show similar information. 
 Run the code below to see the output, then change the position argument in the below code from `stack` to `dodge` and see what the different output looks like.
@@ -404,6 +399,15 @@ gf_props(~island, position= "stack",
 ```
 
 This helps us to see that almost half of the data were collected on Biscoe island.
+
+
+## Visualizing multiple variables
+
+When visualizing multiple variables we might want to start introducing more shapes or colours into our plots, not only does this make the visualisation more interesting but it can help us to better understand patterns in the data.
+Remember that the formula for plotting two variables (one on each axis) is: 
+
+$$\text{plot type(variable_y ~ variable_x, data= dataset)}$$
+
 
 #### Comparing numeric variables most usually involves plotting one against another.
 Run the code below to see what  the variables bill length and bill depth look like plotted against one another. 
