@@ -80,21 +80,17 @@ In all these cases the word **`goal`** will be replaced by an R command to:
 Once you have collected your data and read it in to R (if you need a recap of reading in data go to back to the previous tutorial) the first thing to do is to check that you have the right data!
 
 Lets start by having a look at some data.
-We are going look at some data that contains information about penguins that was collected by researchers at the [palmer research station](https://pal.lternet.edu/)
+We are going look at some data that contains information about penguins that was collected by researchers at the [Palmer research station](https://pal.lternet.edu/)
 
 There are a couple of R functions that offer a useful jumping off point for us to get to know our dataset.
 
 + The `head()` function shows us the first 6 rows of the dataset
 + The `names()` function tells us what the variable names for each column of the dataset are
++ The `dim()` function gives the number of rows by columns in your table of data.
 
-Using the dataset called `penguins` run the above functions to get an idea of what the dataset contains
+Using the dataset called `penguins` run the above functions look at the first 6 rows, to get the column names, and display the number of rows and columns:
 
 ```{r data-check, exercise=TRUE, exercise.completion=FALSE}
-# The head function shows you the first 6 rows of your data set
-head(penguins)
-# The names() function tells you the names of each of your columns; you need to edit this next line
-# names()  
-# the dim() function allows you to see the number of rows and columns
 ```
 
 ```{r, data-check-solution}
@@ -109,7 +105,17 @@ dim(penguins)
 
 Now that we have checked our data and we are happy that we are looking at the correct data file and we know what all of the variable names are we can start to interrogate it a bit further.
 
-We can check the number of rows and columns using the `dim()` function or using `nrow()` or `ncol()` and we can investigate the structure of our data using `str()`
+We can check the number of rows and columns using the `dim()` function or using `nrow()` or `ncol()` and we can investigate the structure of our data using `str()` :
+
+```{r str_example, echo=TRUE}
+str(penguins)
+```
+
+Note the different types of data listed:
+
++ Factors - `species`, `island`, `sex`. These are categorical variables that contain two or more classes
++ num or "Numeric" - `bill_length_mm`, `bill_depth_mm`. These are numerical variables with decimal places
++ Int or "Integer" - `year`, `flipper_length_mm`, `body_mass_g`. These are whole number numerical variables without decimals.
 
 We can use the `summary()` function to give us a summary of the entire dataset which can be a useful way to identify outliers.
 
