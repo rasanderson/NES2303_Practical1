@@ -404,10 +404,8 @@ question("What do you think is the best way to measure the variability around th
 
 
 ## The SS
-Fortunately, in the context of quantitative biology, the SS stands for **sum of
-squares** and has no unfortunate historical conotations. Simply be multiplying
-each difference by itself before adding them together, you can calculate a 
-measure of the variability. We can represent this algebraically as:
+The sum of squares, shortened to SS, is the simplest possible measure of variation around the mean. Whilst it has several limitations, as will be explained on later pages of this website, all the more advanced measures use SS as their basic foundation. First you calculate the difference of each observation from the mean of all the observations, then you square those differences (i.e. multiply the difference with itself) then add them together (the sum). This gives you the SS, a simple 
+measure of the variability in your data. We can represent this algebraically as:
 
 $$SS = \sum_{i = 1}^{n}(\overline{x}-x_i)^2$$
 where
