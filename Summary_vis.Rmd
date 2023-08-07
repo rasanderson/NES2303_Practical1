@@ -661,10 +661,5 @@ gf_violin(body_mass_g~species, colour = ~species, alpha = 0.5,data = penguins) %
   
 ```
 
-## Publication quality graphs
-
-You have now successfully created some informative plots that you could put straight into a report about penguins such as the [Paper](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0090081) that these data were originally published in. Have a think about what you have learnt and other plots you can produce.
-
-
 
 
