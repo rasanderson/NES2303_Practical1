@@ -190,7 +190,7 @@ In all these cases the word **`goal`** will be replaced by an R command to:
 * create a graph.
 
 ## Using the template for simple statistics
-Here are goal is to calculate a simple summary statistic such as a mean or median. We can do this with the formula: 
+Here our goal is to calculate a simple summary statistic such as a mean or median. We can do this with the formula: 
 
 $$\text{statistic(variable ~ group, data = dataset, ...)}$$
 Where:
@@ -224,7 +224,7 @@ mean(~body_mass_g, data = penguins, na.rm=TRUE)
 **Hint** We can add additional grouping factors to the formula `statistic(variable ~ group1 + group2, data = dataset)`
 </div>
 
-Some of the most useful functions from the `mosaic` package are listed [here](https://rdrr.io/cran/mosaic/man/aggregating.html) , a particularly useful function you might want to checkout is `favstats()` that computes several statistics at once. 
+Some of the most useful functions from the `mosaic` package are listed [here](https://rdrr.io/cran/mosaic/man/aggregating.html) , a particularly useful function you might want to checkout is `favstats()` that computes several statistics at once. We will use `favstats()` in Practical 1 so you will see how it works.
 
 ```{r penguins-image, width=5, echo= FALSE, fig.cap="Artwork by @allison_horst"}
 
