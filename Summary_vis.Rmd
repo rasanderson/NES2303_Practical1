@@ -253,24 +253,28 @@ You can see that the table of data `datasaurus_dozen` contains three columns:
 * a `dataset` column, with 142 records in each. This is a categorical variable with 13 names listed above.
 * two continuous variables `x` and `y`.
 
-We will now calculate some summary statistics for `x` and `y` using `dataset` as a grouping variable.
+We will now calculate some summary statistics for `x` and `y` using `dataset` as a grouping variable. Notice how all the calculations for mean or standard deviation follow the same structure:
 
-```{r datasaurus, echo = TRUE}
-# mean and sd of x values in each group
-mean(x~dataset, data = datasaurus_dozen) 
-mean(y~dataset, data = datasaurus_dozen)
-
-# mean and sd of y values in each group
-sd(x~dataset, data = datasaurus_dozen)
-sd(y~dataset, data = datasaurus_dozen)
-```
-<div id="datasaurus-hint">
-**Hint** Remember the formula $$\text{statistic(variable ~ group, data= dataset)}$$ 
+<div id="datasaurus-structure">
+$$\text{statistic(variable ~ group, data= dataset)}$$ 
 </div>
 
+
+
+```{r datasaurus, echo = TRUE}
+# mean of x values in each group
+mean(x~dataset, data = datasaurus_dozen) 
+# mean of y values in each group
+mean(y~dataset, data = datasaurus_dozen)
+
+# sd of x values in each group
+sd(x~dataset, data = datasaurus_dozen)
+# sd of y values in each group
+sd(y~dataset, data = datasaurus_dozen)
+```
 It appears that for each `dataset` the summary statistics are the same for `x` and `y`. Every `dataset` group has the same mean and standard deviation for the `x` and `y`. Is this really a good reflection of what the datasets are like?? So is the data the same!!??
 
-Let us plot all the `x` and `y` values in one scatterplot, using the option `colour = ~dataset` to colour the points by `dataset` code:
+Let us plot all the `x` and `y` values in one scatterplot using the `gf_point()` function. We will use the option `colour = ~dataset` to colour the points by `dataset`.
 
 ```{r datasaurall, exercise=TRUE}
 gf_point(y~x, data = datasaurus_dozen, colour = ~dataset)
