@@ -52,15 +52,17 @@ interactive components where possible.
 
 ### What is 'central tendency'?
 We are so familiar with some concepts, such as averages, that it is easy to
-forget the biases implicit within the way in which they are calculate. For example,
+forget the biases implicit how they are calculated. For example,
 if you listen to any politicians speaking, they will always talk about "the average
-salary" that people are earning. This is not, however, the measure used by the
+salary" that people are earning. The mean is not, however, the measure used by the
 _Office for National Statistics_ (ONS) who actually collect the data. The latter
 always prefer to use the "median salary". There is actually a big difference
 between the two (about £5000 per year on current figures). The median salary is
 what most people earn. The average salary is "distorted" by a relatively small
 number of people earning incredibly high salaries (heads of FTSE100 companies 
-etc.) and so doesn't represent what most people earn.
+etc.) and so doesn't represent what most people earn. We need to understand the
+difference between how a mean and a median are calculated and what their values
+represent.
 
 ### Mean
 This is the most commonly use measure of central tendency, i.e. take the sum of
