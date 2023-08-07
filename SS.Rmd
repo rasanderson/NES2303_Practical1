@@ -98,12 +98,21 @@ syntax:
 The median is the value where 50% of your dataset is above the median, and
 50% is below the median. It can be calculated using the `median()` function in R
 with a similar syntax to above. If your data are normally distributed (bell-shaped
-curve) the mean and median will be fairly similar:
+curve) the mean and median will be fairly similar as shown by the vertical lines:
 
 ```{r similar_mean_median}
- # generate 500 values at random with mean of 58
+# generate 500 values at random with mean of 58
+set.seed(123)
 normal_distribution <- rnorm(500, mean=58)
-gf_histogram(~ normal_distribution)
+mean_normal_distribution <- mean(~normal_distribution) * 1.0001
+median_normal_distribution <- median(~normal_distribution)
+sumstats <- data.frame(Statistic = c("Mean", "Median"),
+                       value = c(mean_normal_distribution, median_normal_distribution))
+ggplot(data.frame(normal_distribution), aes(x = normal_distribution)) +
+  geom_histogram(bins = 30) +
+  geom_vline(data = sumstats, aes(xintercept = value, col = Statistic)) +
+  theme_classic()
+#gf_histogram(~ normal_distribution)
 ```
 
 Mean = `r round(mean(normal_distribution), 2)`
@@ -113,8 +122,21 @@ However, if the data are skewed, then the mean and median drift apart:
 
 ```{r dissimilar_mean_median}
 # generate 500 values from a non-normal distribution
+# set.seed(123)
 non_normal_distribution <- rlnorm(500, meanlog=log(58))
-gf_histogram(~ non_normal_distribution)
+mean_non_normal_distribution <- mean(~non_normal_distribution)
+median_non_normal_distribution <- median(~non_normal_distribution)
+sumstats <- data.frame(Statistic = c("Mean", "Median"),
+                       value = c(mean_non_normal_distribution, median_non_normal_distribution))
+ggplot(data.frame(non_normal_distribution), aes(x = non_normal_distribution)) +
+  geom_histogram(bins = 30) +
+  geom_vline(data = sumstats, aes(xintercept = value, col = Statistic)) +
+  theme_classic()
+#gf_histogram(~ non_normal_distribution) %>% 
+#  gf_vline(xintercept = ~mean_non_normal_distribution, colour="red") #%>% 
+  #gf_text(x = ~mean_non_normal_distribution,
+  #        y = ~0.1, 
+  #        label = ~paste("Mean = ", mean_non_normal_distribution))
 ```
 
 Mean = `r round(mean(non_normal_distribution), 2)`
