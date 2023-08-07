@@ -7,6 +7,7 @@ runtime: shiny_prerendered
 ```{r setup, include=FALSE}
 library(learnr)
 library(mosaic)
+library(ggside)
 set.seed(123)
 caterpillers <- read.csv("www/regression.csv")
 crop_growth <- read.csv("www/crop_growth.csv")
@@ -98,7 +99,8 @@ syntax:
 The median is the value where 50% of your dataset is above the median, and
 50% is below the median. It can be calculated using the `median()` function in R
 with a similar syntax to above. If your data are normally distributed (bell-shaped
-curve) the mean and median will be fairly similar as shown by the vertical lines:
+curve) the mean and median will be fairly similar as shown by the vertical lines. I've 
+also put a boxplot at the top of the graphs to help your interpretation:
 
 ```{r similar_mean_median}
 # generate 500 values at random with mean of 58
@@ -111,6 +113,7 @@ sumstats <- data.frame(Statistic = c("Mean", "Median"),
 ggplot(data.frame(normal_distribution), aes(x = normal_distribution)) +
   geom_histogram(bins = 30) +
   geom_vline(data = sumstats, aes(xintercept = value, col = Statistic)) +
+  geom_xsideboxplot(data = data.frame(normal_distribution), orientation = "y") +
   theme_classic()
 #gf_histogram(~ normal_distribution)
 ```
@@ -131,12 +134,8 @@ sumstats <- data.frame(Statistic = c("Mean", "Median"),
 ggplot(data.frame(non_normal_distribution), aes(x = non_normal_distribution)) +
   geom_histogram(bins = 30) +
   geom_vline(data = sumstats, aes(xintercept = value, col = Statistic)) +
+  geom_xsideboxplot(data = data.frame(non_normal_distribution), orientation = "y") +
   theme_classic()
-#gf_histogram(~ non_normal_distribution) %>% 
-#  gf_vline(xintercept = ~mean_non_normal_distribution, colour="red") #%>% 
-  #gf_text(x = ~mean_non_normal_distribution,
-  #        y = ~0.1, 
-  #        label = ~paste("Mean = ", mean_non_normal_distribution))
 ```
 
 Mean = `r round(mean(non_normal_distribution), 2)`
@@ -144,7 +143,10 @@ Median = `r round(median(non_normal_distribution), 2)`
 
 Notice how in the skewed distribution, the median value gives a much more
 representative indication of the 'central tendancy' than the mean, which was
-distorted by a few very high values.
+distorted by a few very high values. The differences are also obvious in the two
+boxplots. In the normal distribution the boxplot is symmetrical, whereas in the
+non-normal distribution it is skewed, with most of the data being less than the
+mean.
 
 ## Sensitivity to outliers
 An **outlier** data point is a very extreme value. These can arise if you have
