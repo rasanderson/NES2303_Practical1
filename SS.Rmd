@@ -601,7 +601,7 @@ So even though your dataset with 30 records was less noisy than the one with 12
 observations, by simply taking the total of the squared differences from the 
 mean, we over-estimated the variation in the 30 observation dataset.
 
-We need therefore, some way of calculating a value that measures 'average' or
+We need some way of calculating a value that measures 'average' or
 'mean' sum of squares. This value was originally known as the **mean sum of squares**
 or **mean square** and you will sometimes see the letters **MS** in the outputs
 from a linear model or other analysis. However, it is more commonly known as
@@ -624,7 +624,7 @@ the mean is 30.0, and the first four observations are:
 
 what is the value of the fifth observation? You actually have **no choice** in
 what the fifth observation can be. It has to be **19** in order for the average
-to be 30.0  In other words, if you have 5 data points to calculate your (known)
+to be 30.0. In other words, if you have 5 data points to calculate your (known)
 mean, you have complete freedom as to what any four of those data points are,
 but no choice as to the final one. The same issue applies irrespective of how
 many observations are used to calculate your mean. For the 12 observation 
