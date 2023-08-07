@@ -548,14 +548,13 @@ Now go ahead and check the means, medians, minimum, maximum and SS for the two
 datasets, and see how they compare. We'll call your original dataset of 12 values
 `x1`, and the larger dataset of 30 values `x2`:
 
-```{r compare_two_SS, exercise = TRUE, code.completion = FALSE, exercise.lines = 15}
+```{r compare_two_SS, exercise = TRUE, code.completion = FALSE, exercise.lines = 16}
 x1 <- c(22.04, 26.28, 18.82, 20.51, 21.17, 19.26, 23.68, 22.17, 23.31, 24.21, 19.45, 25.13)
 x2 <- c(25.11, 20.83, 21.17, 19.82, 22.47, 22.54, 23.62, 22.31, 22.92, 23.55, 20.26, 23.53,
         21.91, 23.51, 24.56, 21.57, 23.71, 23.57, 21.73, 20.21, 21.59, 22.47, 22.04, 21.27,
         19.70, 24.10, 19.92, 20.19, 23.56, 21.06)
 
-```
-```{r compare_two_SS-solution}
+# Now we calculate the mean, median, minimum and maximum, and SS of your data
 mean(x1)
 mean(x2)
 median(x1)
@@ -568,7 +567,7 @@ sum((mean(x1) - x1)^2)
 sum((mean(x2) - x2)^2)
 ```
 
-There is obviously a problem using SS to measure variability. The SS is 62 for
+There is obviously a problem using SS to measure variability. The SS is 64 for
 the dataset with 12 values, but over 66 for the dataset with 30 values. Even
 though the dataset with 30 values has **less variability**, when judged by simple
 visual assessment or maximum and minimum values, the **SS is actually larger** for
