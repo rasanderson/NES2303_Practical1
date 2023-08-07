@@ -331,11 +331,7 @@ As well as some **numeric** variables:
   
 It is important to know what type of data we are dealing with as it will help us to decide what visualizations we might want to create.
 
-If you are unsure of what plot would be best for your data you can consult the internet, sites such as [data-to-vis](https://www.data-to-viz.com/) offer some useful insight into how to decide the most appropriate display for your data 
-
-```{r}
-knitr::include_graphics("images/data-to-viz.png")
-```
+If you are unsure of what plot would be best for your data, an excellent online resource is  [data-to-vis](https://www.data-to-viz.com/) which provides a flowchart to help make the best decision, and examples in R. 
 
 
 ## Visualizing single variables
