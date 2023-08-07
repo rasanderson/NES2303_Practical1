@@ -161,32 +161,29 @@ summary(penguins)
 ```
 
 
-We could  do this manually for a chosen variable using the `mean()` function from the `mosaic` package
-```{r mean-func, echo =TRUE}
-# mean weight
+How can we calculate just the mean body weight, `body_mass_g`? Here, our "goal" is to calculate the overall mean, which is easy to do using `mean()` function from the `mosaic` package. As you only want to calculate an overall mean, the structure of your function is:
+
+![](images/template_one_variable.png)
+
+so you don't need to put a name to the left of the **~** (tilde) symbol in the template. Have a go at coding this up, with the correct names for "goal", "variable_name" and "mydata":
+
+```{r mean-func, exercise = TRUE}
+
+```
+```{r mean-func-solution}
 mean(~body_mass_g, data = penguins)
 ```
 
-Looking at the outputs of `summary(penguins)` can you work out why the output of the above code gives NA
+The output shows NA (short for "not available" or "missing" data). Looking at the outputs of `summary(penguins)` you can see that there are a number of missing records. We can add an argument to the `mean()` function to tell it to remove the NA's and calculate statistics based on the data available. This extra argument is `na.rm = TRUE`. Try and modify your code to test this in the box below:
+ 
+```{r mean-narm, exercise = TRUE}
 
-```{r mean-q, echo=FALSE}
-question("Why does the above code return NA?",
-         answer("Because there are NA's in the dataset",
-                message = "There are NA's in the dataset but we are focused on just one variable at the moment"),
-         answer("Because there are NA's in the body mass variable", correct = TRUE),
-allow_retry = TRUE
-         )
+
 ```
- 
- We can add an argument to the function to tell it to remove the NA's and calculate statistics based on the data available
- 
-```{r mean-narm, echo = TRUE}
-
-# mean weight
+```{r mean-narm-solution}
+# mean weight with NA (missing) records ignored
 mean(~body_mass_g, data = penguins, na.rm=TRUE)
-
 ```
-
 
 From using the `summary()` function we can see that there are three different species of penguin in our dataset, whilst the above code gives us an indication of the overall mean often we want to compute those same statistics for each group to see if the groups differ from each other. This is where we can start to think about "templates" which give a single overall goal to what you are doing.
 
