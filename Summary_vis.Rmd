@@ -28,7 +28,7 @@ Now that we are starting to think about analysing some data we need to know some
 
 This tutorial focuses more on the 'how', offering you some code chunks that you can modify (and reuse in future should you need to)to help you familiarize yourself with carrying out such operations in R, the 'why' pertaining to many of the concepts touched on here will be covered in more detail in the Summary Stats tutorial.
 
-## Checking your data 
+## Checking your data {#checking_your_data}
 
 Once you have collected your data and read it in to R (if you need a recap of reading in data go to back to the previous tutorial) the first thing to do is to check that you have the right data!
 
@@ -237,7 +237,7 @@ knitr::include_graphics("images/lter_penguins.png")
 
 Summary stats are a great starting point but to really understand what is going on with our data we need to visualize it. We are using data from the `datasauRus` R package, which has data with identical means, but very different appearances. It shows the importance of plotting data.
 
-Lets take a look at the below dataset, which is called `datasaurus_dozen` which has x and y values for different groups (recorded as the dataset variable) which are recorded as a character variable.
+Lets take a look at the below dataset, which is called `datasaurus_dozen` which has x and y values for different groups (recorded as the dataset variable) which are recorded as a character variable. Recall that character variables are text-based rather than numeric-based, and you can use the `str()` function to look at your data structure. See [Checking your data](#checking_your_data)
 
 ```{r, datasaurus_exercise-setup}
 datasaurus_dozen$dataset <- as.factor(datasaurus_dozen$dataset)
