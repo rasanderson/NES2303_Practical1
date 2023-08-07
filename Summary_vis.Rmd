@@ -28,6 +28,53 @@ Now that we are starting to think about analysing some data we need to know some
 
 This tutorial focuses more on the 'how', offering you some code chunks that you can modify (and reuse in future should you need to)to help you familiarize yourself with carrying out such operations in R, the 'why' pertaining to many of the concepts touched on here will be covered in more detail in the Summary Stats tutorial.
 
+## Think about your goal
+### The Most Important Template
+&nbsp;
+
+The following template is important because we can do so much with it.
+
+![](images/template_blank.png)
+
+### Template components
+It is useful to name the components of the template:
+
+![](images/template_filled.png)
+
+In general here you will have:
+
+* goal: calculate a summary statistic, do an analysis, create a graph
+* y ~ x: y is your response variable, x is your explanatory (see first lecture)
+* mydata: this is a `data.frame` with columns `x` and `y`
+
+We're hiding a bit of complexity in the template, and there will be times 
+that we will want to add some options, e.g. to handle missing data etc.  We'll indicate that by adding `...` to the end of the template.  Just don't let `...` become a distraction
+early on.
+
+![](images/template_with_options.png)
+
+Often you won't need to add options, but it depends on your data.
+
+### Other versions
+Here are some variations on the template that you might see
+```{r, eval = FALSE, echo=TRUE}
+# Goal only has one variable
+goal(~ x, data = mydata)
+
+# May want to group by another variable
+goal(y ~ x | z , data = mydata)
+
+# Might want to link in additional goals (usually for graphs)
+goal(y ~ x, data = mydata) %>% 
+  additional_goal()
+```
+
+In all these cases the word **`goal`** will be replaced by an R command to:
+
+* calculate a simple statistic
+* do a data analysis
+* create a graph.
+
 ## Checking your data {#checking_your_data}
 
 Once you have collected your data and read it in to R (if you need a recap of reading in data go to back to the previous tutorial) the first thing to do is to check that you have the right data!
@@ -143,51 +190,6 @@ mean(~body_mass_g, data = penguins, na.rm=TRUE)
 
 From using the `summary()` function we can see that there are three different species of penguin in our dataset, whilst the above code gives us an indication of the overall mean often we want to compute those same statistics for each group to see if the groups differ from each other. This is where we can start to think about "templates" which give a single overall goal to what you are doing.
 
-## Think about your goal
-### The Most Important Template
-&nbsp;
-
-The following template is important because we can do so much with it.
-
-![](images/template_blank.png)
-
-### Template components
-It is useful to name the components of the template:
-
-![](images/template_filled.png)
-
-In general here you will have:
-
-* goal: calculate a summary statistic, do an analysis, create a graph
-* y ~ x: y is your response variable, x is your explanatory (see first lecture)
-* mydata: this is a `data.frame` with columns `x` and `y`
-
-We're hiding a bit of complexity in the template, and there will be times 
-that we will want to add some options, e.g. to handle missing data etc.  We'll indicate that by adding `...` to the end of the template.  Just don't let `...` become a distraction
-early on.
-
-![](images/template_with_options.png)
-Often you won't need to add options, but it depends on your data.
-
-### Other versions
-Here are some variations on the template that you might see
-```{r, eval = FALSE, echo=TRUE}
-# Goal only has one variable
-goal(~ x, data = mydata)
-
-# May want to group by another variable
-goal(y ~ x | z , data = mydata)
-
-# Might want to link in additional goals (usually for graphs)
-goal(y ~ x, data = mydata) %>% 
-  additional_goal()
-```
-
-In all these cases the word **`goal`** will be replaced by an R command to:
-
-* calculate a simple statistic
-* do a data analysis
-* create a graph.
 
 ## Using the template for simple statistics
 Here our goal is to calculate a simple summary statistic such as a mean or median. We can do this with the formula: 
