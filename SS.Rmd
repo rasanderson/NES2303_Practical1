@@ -32,7 +32,7 @@ several measures in this tutorial:
 
 ### Why do I need to know this?
 You can drive a car without having to know exactly what a differential is doing,
-what is a carburettor is for, or why the engine has a crankshaft. However, if you
+what a carburettor is for, or why the engine has a crankshaft. However, if you
 have a basic understanding of its mechanics you'll find it easier to diagnose
 faults _What is causing that squeaking from the rear axle?_, and avoid expensive
 errors _Is it OK to put diesel in a petrol engine?_
