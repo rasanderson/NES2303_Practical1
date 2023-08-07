@@ -26,7 +26,7 @@ Now that we are starting to think about analysing some data we need to know some
 - Generate summary statistics for our dataset (as a whole and for individual variables) 
 - Visualise and plot our data
 
-This tutorial focuses more on the 'how', offering you some code chunks that you can modify (and reuse in future should you need to)to help you familiarize yourself with carrying out such operations in R, the 'why' pertaining to many of the concepts touched on here will be covered in more detail in the Summary Stats tutorial.
+This tutorial focuses more on the 'how', offering you some code chunks that you can modify (and reuse in future should you wish) to help you familiarize yourself with carrying out basic operations in R, the 'why' pertaining to many of the concepts touched on here will be covered in more detail later tutorials.
 
 ## Think about your goal
 ### The Most Important Template
