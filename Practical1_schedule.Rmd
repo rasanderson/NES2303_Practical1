@@ -116,7 +116,7 @@ This folder now has quite a number of entries. Exact appearance may differ sligh
 * `practical0` and `practical1` (full names `practical0.R` and `practical1.R`). Your "script" files containing a record of your R commands.
 * `yield` and `yield` with slightly different icons (full names `yield.csv` and `yield.xlsx`). The two data files you worked with in the initial practical, one in Microsoft Excel format, the other in CSV format
 
-**Where should you store your data files?** : For this course you should be fine storing your data in your NES2303 project folder, as you will only have a relatively small number of files to work with. In general, however, it is better to create a "Data" subfolder, and store all your data files there. This leads to less clutter and helps you be more organised. If you use this idea, simply add `Data/` before the data file name when you use the `read.csv()` command.
+**Where should you store your data files?** For this course you should be fine storing your data in your NES2303 project folder, as you will only have a relatively small number of files to work with. In general, however, it is better to create a "Data" subfolder, and store all your data files there. This leads to less clutter and helps you be more organised. If you use this idea, simply add `Data/` before the data file name when you use the `read.csv()` command.
 
 ## Import your data into R
 Go to your R script, called `practical1.R`, and edit it so that it reads as follows. Your script **must** contain comments, blank lines, spaces around the `<-` assign symbol etc so that it is readable!!
