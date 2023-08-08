@@ -894,8 +894,16 @@ simple worked example of this [here](https://www.drdawnwright.com/why-divide-by-
 
 ## Confidence intervals
 The final type of measure of variation we will discuss are 95% Confidence
-Intervals, often abbreviated to 95% CI. When you have data from a normal or
-bell-shaped distribution (also known as a Gaussian distribution), roughly
+Intervals, often abbreviated to 95% CI. Imagine you do a laboratory experiment
+or field survey, collect some data, and calculate a mean value. If you repeated
+the same experiment or field survey later the same data, how confident would
+you be that you'd get roughly the same mean value? Of course, you'll never
+obtain exactly the same value, due to natural unexplained "noise" in your data.
+But if you were able to obtain the similar results 19 times out of 20 (95%) then
+you could be reasonably confident about your results.
+
+Confidence intervals are based on ideas from data from a normal or
+bell-shaped distribution (also known as a Gaussian distribution). Here, roughly
 95% of the data points occur within plus or minus about 2 standard deviations
 from the mean:
 
@@ -912,13 +920,38 @@ One advantage of 95% CI is that they can be displayed in a graph, and provide
 a more nuanced interpretation of your data than a simple "significant" or
 "non-significant" approach. 
 
-Use the `confint()` function to calculate 95% CI, for example:
+Use the `confint()` function to calculate 95% CI. In the following R code box, a
+dataset of 40 replicates from a laboratory experiment has recorded, stored in
+the variable `my_data`. Calculate both the mean and 95% CI of this dataset. Use 
+the solution button if you get stuck:
 
-```{r show_95CI, echo=TRUE}
+```{r prepare-show95CI}
 # Generate some random data
-some_data <- rnorm(n=100, mean=50, sd=1)
-
-# Display 95% around the mean
-confint(some_data)
+set.seed(123)
+my_data <- rnorm(n=40, mean=50, sd=1)
 ```
 
+```{r show_95CI, exercise=TRUE, exercise.setup = "prepare-show95CI", exercise.lines=7}
+# Hint: as you only have a single column of numbers in my_data you do not need
+# the ~ or data= components to your calls to mean() or confint()
+```
+
+```{r show_95CI-solution}
+# Display mean
+mean(my_data)
+
+# Display 95% around the mean
+confint(my_data)
+
+```
+
+$100 - 95 = 5$ and $5$  is split into two, for upper and lower values, that is
+$5 \div 2 = 2.5$, thus the results of the `confint()` function are displayed in
+columns 2.5% and 97.5%. This represents the blue area in the graph at the top of
+the page. 
+
+You should have a mean of 50.045, a lower 95% CI of 48.306 and an upper 95% CI
+of 51.717. You should interpret this as saying that if you were to repeat your
+laboratory experiment 20 times then 19 times out of 20 the mean value would be
+between 48.306 and 51.717. Don't misinterpret this statistic: it does **not**
+indicate that you are 95% confident your mean value is between 48.306 and 51.717.
