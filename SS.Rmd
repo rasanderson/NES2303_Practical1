@@ -737,8 +737,14 @@ experiment, how likely are they to reach the same conclusions as you did? This
 depends to a large extent on the **accuracy** and **precision** of your measurements.
 
 ## Accuracy and precision
-You will sometimes see these terms referred to as **bias** and **variance** 
-tradeoff. Imagine you are playing with bows and arrows, or on a dartboard.
+You will sometimes see the terms accuracy and precision referred to as **bias** 
+and **variance**. Whilst standard deviation (SD) gives you an insight into the
+"spread" of your data, this measurement is going to be influenced by the number
+of samples you take, and we use a minor adjustment to SD to calculate the 
+standard error (SE) to account for this.
+
+First, let's get a better understanding of what we mean by accuracy and precision.
+Imagine you are playing with bows and arrows, or on a dartboard.
 Ideally you want every one of your shots to hit exactly on target.
 
 ![If only I was this brilliant a player...](www/dart_board.jpg)
@@ -812,6 +818,9 @@ question("What the mean soil weight?",
          allow_retry = TRUE,
          random_answer_order = TRUE)
 ```
+
+Next, we are going to show how you can take account of the number of samples to
+get a measurement of precision.
 
 ## How to measure accuracy and precision
 You have already used standard deviation ($\sigma$), and the other closely 
