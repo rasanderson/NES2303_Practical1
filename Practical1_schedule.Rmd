@@ -2,10 +2,10 @@
 title: 'Practical 1: Data import Summary and display'
 author: "BIO2020"
 output:
-  word_document:
-    number_sections: true
   html_document:
     df_print: paged
+    number_sections: true
+  word_document:
     number_sections: true
 ---
 
@@ -33,14 +33,14 @@ border:0px;
 
 
 ```{r, echo = FALSE, message=FALSE, warning= FALSE}
-library(bio2020)
+library(mosaic)
 ```
 
 # Aims and objectives of Practical 1
 The overall aim of this practical is to help you become more familiar with RStudio, and some basic summary statistics and visualisations. The specific objectives are to:
 
 1. how to calculate simple summary statistics of the data you have imported into R
-2. create of some simple summary plots to aid interpretation
+2. create some simple summary plots to aid interpretation
 3. show you how these graphs and tables of calculated statistics can be exported to Microsoft Word and Microsoft Excel
 
 We will primarily focus on two datasets:
@@ -53,6 +53,8 @@ We will primarily focus on two datasets:
 **Bivalve data**
 
 * `bivalve.csv` This contains the abundance of bivalves at two sites on four transects
+
+Throughout this work you will be using the `mosaic` library, that you have already installed in "Practical 0", as it makes basic data summaries and graphics in R more straightforward
 
 # Start RStudio, open your BIO2020 project, create R script
 If you did the first practical on 30th September 2022 this should be straightforward:
