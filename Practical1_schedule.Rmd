@@ -219,7 +219,7 @@ where:
 
 + **simple statistic** = the statistic that we want to calculate, e.g. mean, median, sd, etc.
 + **chick weights** = the weight of the individual chicks on the different diets at the end of the 21 day study. This is your **_response_** variable.
-+ **diet** = the column describing which diet the chicks were fed. This is your **_explanatory_** variable as it should be obvious that diet might or might not determine chick weight, but the reverse is cannot true.
++ **diet** = the column describing which diet the chicks were fed. This is your **_explanatory_** variable as it should be obvious that diet might or might not determine chick weight, but the reverse  cannot true.
 + **diet_dat** = the table (data frame) of data containing the columns for chick weights and diets
 + **...** = options. This has been omitted as not needed in this first example
 
@@ -231,7 +231,7 @@ mean(weight ~ diet, data = diet_dat)
 median(weight ~ diet, data = diet_dat)
 ```
 
-The above two lines print the mean and median on the screen. If you do not remember the difference between means and medians, have a look at [Measures of Central Tendancy](https://naturalandenvironmentalscience.shinyapps.io/variation/#section-measures-of-central-tendency). You can also store the results of your mean and median in temporary variables `chick_mean` and `chick_med` for later re-use. Nothing is actually printed onto the screen when you store the data:
+The above two lines print the mean and median on the screen. If you do not remember the difference between means and medians, have a look at [Measures of Central Tendancy](https://naturalandenvironmentalscience.shinyapps.io/variation/#section-measures-of-central-tendency). You can also store the results of your mean and median in temporary variables `chick_mean` and `chick_med` for later re-use. Nothing is actually printed onto the screen when you store the data in `chick_mean` or `chick_med` variables but you can display it simply by entering the variable name in your script, or even the Console window (bottom left of RStudio) and hitting the Enter key:
 
 ```{r, echo = TRUE}
 # Save means in temporary variable called chick_mean
@@ -240,6 +240,13 @@ chick_mean <- mean(weight~diet, data = diet_dat)
 # Save medians in temporary variable called chick_med
 chick_med <- median(weight~diet, data = diet_dat)
 ```
+
+```{r, echo=TRUE, eval=FALSE}
+# Display the contents of your temporary variables
+chick_mean
+chick_med
+```
+
 
 Both median, and especially mean, can be sensitive to outliers: move the sliders on the [interactive graphs](https://naturalandenvironmentalscience.shinyapps.io/variation/#section-sensitivity-to-outliers) to make sure you understand the effects of outliers. To get a good understanding of our data we need to calculate some statistics that give us an idea of how our data is **spread** about the mean. If this is unfamiliar to you go back over other sections of the interactive website tutorial linked above.
 
