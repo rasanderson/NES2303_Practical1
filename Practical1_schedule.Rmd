@@ -253,7 +253,7 @@ Both median, and especially mean, can be sensitive to outliers: move the sliders
 Thankfully because we are doing our analysis in R we don't have to calculate measures such as variance, standard deviation and standard error by hand, we can use functions to help us.
 
 ## Calculate the variance and standard deviation for each diet
-Please look at [this explanation of variance, or var](https://naturalandenvironmentalscience.shinyapps.io/variation/#section-variance-correcting-ss-for-the-number-of-records) and [this explanation of standard deviation, or sd](https://naturalandenvironmentalscience.shinyapps.io/variation/#section-standard-deviation-correct-units) that introduce these measures of spread. If you do not understand variance and standard deviation, please speak to myself or pop a question into the relevant Microsoft Teams channel at this hyperlink: [Section 1 - summarising and displaying data](https://teams.microsoft.com/l/channel/19%3ab07e8c62b95f42fdb56497d54fe0e1d2%40thread.tacv2/Section%25201%2520-%2520summarising%2520and%2520displaying%2520data?groupId=d8c4adb1-b8dd-4f84-b57d-e4ed03b69652&tenantId=9c5012c9-b616-44c2-a917-66814fbe3e87)  Calculation is straightforward in R, using the functions `var()` and `sd()` and substituting them in as our "goals":
+Please look at [this explanation of variance, or var](https://naturalandenvironmentalscience.shinyapps.io/variation/#section-variance-correcting-ss-for-the-number-of-records) and [this explanation of standard deviation, or sd](https://naturalandenvironmentalscience.shinyapps.io/variation/#section-standard-deviation-correct-units) that introduce these measures of spread. If you do not understand variance and standard deviation, please speak to myself or one of the demonstrators. You can also use Microsoft Teams to send a message to all the demonstrators for advice.  Calculation is straightforward in R, using the functions `var()` and `sd()` and substituting them in as our "goals":
 
 ```{r}
 # calculate the variance in chick weights on each diet
@@ -266,7 +266,7 @@ sd(weight ~ diet, data = diet_dat)
 As before, rather than merely displaying these values on screen, we can put them into temporary R "objects" called  `chick_var` and `chick_sd` and assign the output of the `var()` and `sd()` functions to those objects. Again, the actual values are not displayed on screen when you store them in a temporary variable.
 
 ```{r}
-# calcualating variance for each group
+# calculating variance for each group
 chick_var <- var(weight ~ diet, data = diet_dat)
 
 #calculating standard deviation for each group
