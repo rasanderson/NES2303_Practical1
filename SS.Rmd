@@ -660,11 +660,30 @@ explanatory variable, you can use the syntax
 
 `var(response_variable ~ explanatory_variable, data=dataset_name)`
 
+### Two example datasets
+Here we will use two datasets, that you will have a chance to explore further in the practical classes. On these webpages they can be accessed as the `caterpillers` and `crop_growth` data.frames.
+
+#### Caterpillers dataset
+Many plants produce tannins as a defence chemical to reduce insect attack. It is what gives black tea its slightly bitter taste. This dataset is from an experiment to investigate the rate of insect growth (mg/day) as a result of the amount of tannins in the diet (mg). Both variables `growth` and `tannin` are continuous numeric. Here the `growth` is your "response" variable and the `tannin` your "explanatory" variable (think about cause and effect).
+
+#### Crop growth dataset
+Soil type has a major effect on the growth of many agricultural crops. These data are from a simple agricultural experiment to compare the yield of winter wheat, stored in the `growth` on three soil types, stored in the `soil` column. Here `growth` is a continuous numeric response variable, and `soil` is a categorical explanatory "factor" with three "levels" in it: `sand`, `clay` and `loam`.
+
 Have a go at calculating the variance for some of your data from the `caterpillers`
-and `crop_growth` datasets:
+and `crop_growth` datasets. Edit the following code to make it work, or click on the "Solution" button if you get stuck:
 
-```{r calc_variance, exercise = TRUE, code.completion = FALSE, exercise.lines = 10}
-
+```{r calc_variance, exercise = TRUE, code.completion = FALSE, exercise.lines = 11}
+# Overall variance for each column of caterpillers
+# Hint: you only need to enter one column name on the next two lines as you
+# are calculating the overall variance
+var( ~ , data=caterpillers)
+var( ~ , data=caterpillers)
+# Overall variance for crop yield
+# Hint: again only one variable name needed
+var( ~ , data = crop_growth)
+# Variance for each soil type
+# Hint: two variable names needed, one each side of ~ symbol
+var( ~ , data = crop_growth)
 
 ```
 ```{r calc_variance-solution}
