@@ -824,20 +824,24 @@ get a measurement of precision.
 
 ## How to measure accuracy and precision
 You have already used standard deviation ($\sigma$), and the other closely 
-related variable is standard error (se or SE). This can be calculated as:
+related variable is standard error (se or SE). SE is generally preferred when
+you present summary statistics in graphs or tables as it corrects for sample size.
+SEs can be calculated as:
 
 $$se = \frac{\sigma}{\sqrt{n}}$$
 
 Obviously, standard error is smaller than standard deviation, as you divide by
-the square root of $n$, but they relate to our dartboard example earlier:
-
-* standard deviation provides a measure of how far away you are from the "true"
-value, represented by the bull's eye on the dartboard. So it is a measure of
-**accuracy**
-* standard error provides a measure of the **precision** of you measurement, or
+the square root of $n$, but they relate to our dartboard example earlier in that
+standard error provides a measure of the **precision** of you measurement, or
 how much spread there is in the darts you threw at the dartboard.
 
-Both measures get smaller with increasing sample size $n$.
+Both SD and SE get smaller with increasing sample size $n$.
+
+You might be wondering how you measure the **accuracy** of your data. Actually 
+this is more challenging: if doing a laboratory study, you might have a reference
+sample against which you can calibrate your data. For field-based studies it is
+more difficult, but cross-referencing with previously published data from similar
+environments can help.
 
 ### How to calculate standard error in R
 Oddly enough, there isn't a built-in function to calculate SE, presumably
