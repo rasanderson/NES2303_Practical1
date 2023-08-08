@@ -955,3 +955,27 @@ of 51.717. You should interpret this as saying that if you were to repeat your
 laboratory experiment 20 times then 19 times out of 20 the mean value would be
 between 48.306 and 51.717. Don't misinterpret this statistic: it does **not**
 indicate that you are 95% confident your mean value is between 48.306 and 51.717.
+
+## Summary
+From this website you should now have a good grasp of:
+
++ Measures of central tendency, especially mean and median
++ Measures variability around the mean, especially variance, standard deviation,
+standard error and 95% confidence intervals
+
+Whilst some of the equations to calculate the variability around a mean may
+appear daunting at first sight, hopefully by building up from the simple sum of
+squares in a sequential manner you can see how they are related to each other.
+You will see all these terms, especially mean, variance and SE, in the outputs
+of many of your data analyses.
+
+
+### Further reading
++ [The Statistics with R: an introduction for Biologists (2nd Edition)](https://doi-org.libproxy.ncl.ac.uk/10.1093/oso/9780198798170.003.0005) 
+gives a clear explanation of standard errors, confidence intervals etc. in
+Chapter 5 "Estimation". It uses biological examples, although does not use the
+`mosaic` package so some commands are more complex.
++ [Statistical Modelling (2nd Edition)](https://dtkaplan.github.io/SM2-bookdown/) 
+[Chapter 3](https://dtkaplan.github.io/SM2-bookdown/describing-variation.html) gives a good explanation of variance and standard deviation, and
+[Chapter 5](https://dtkaplan.github.io/SM2-bookdown/confidence-intervals.html) covers confidence intervals. Some examples from social sciences, but
+uses `mosaic` package throughout.
