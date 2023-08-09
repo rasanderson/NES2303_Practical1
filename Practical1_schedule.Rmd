@@ -465,7 +465,34 @@ Let us create a boxplot to show chick weight after 21 days on the four different
 gf_boxplot(weight~diet, data = diet_dat)
 ```
 
-At the moment the axis labels are just `weight` and `Diet`. Try changing them into something more meaningful by "chaining" on an additional line that begins `gf_labs()`, so the vertical axis label reads "Weight (g)" as you should always include units where possible.
+At the moment the axis labels are just `weight` and `Diet`. Try changing them into something more meaningful by "chaining" on an additional line that begins `gf_labs()`, so the vertical axis label reads "Weight (g)" as you should always include units where possible. Also edit your code to remove the grey background by adding an extra line for `gf_theme()`.
+
+### Barcharts
+Barcharts are less useful than boxplots as they give a poorer indication of the spread of your data around the mean, but they are common in reports and you might be asked to create one. It is essential to display the means +/- SE or means +/- 95% CI on your bars (and state whether the error bars represent SE or CI in your figure caption!!). Unfortunately they are a bit more difficult to create than boxplots. Let's create a barchart for your mean chick weight data, with error bars. All the information is stored in your `diet_stats` table from earlier. We'll do this in stages, so keep editing and re-running the **same** section of R code so you can see the changes (you only want one barchart, not several):
+
+First, the barchart to show the mean weights vs diet. Remember the mean weight is your "response" variable and so goes to the left of your `~` symbol. The `gf_col()` function creates the bars:
+
+```{r}
+gf_col(chick_mean ~ diet, data = diet_stats) %>% 
+  gf_theme(theme_classic())
+```
+
+Now we add the standard errors, held in the `chick_se` column, using `gf_error()`. This needs to know where we are putting the errors, i.e. both above (`chick_mean + chick_se`) and below (`chick_mean - chick_se`) the mean chick weight. By default the error bars are the full width of each bar, which is too wide, so we'll make them smaller with `width=` option:
+
+```{r}
+gf_col(chick_mean ~ diet, data = diet_stats) %>% 
+  gf_errorbar((chick_mean + chick_se) + (chick_mean - chick_se) ~ diet, width = 0.25) %>% 
+  gf_theme(theme_classic())
+```
+
+Finally, edit your code again to provide proper axis labels. Note that we add the information that we are displaying SE to the vertical axis.
+
+```{r}
+gf_col(chick_mean ~ diet, data = diet_stats) %>% 
+  gf_errorbar((chick_mean + chick_se) + (chick_mean - chick_se) ~ diet, width = 0.25) %>% 
+  gf_labs(y = "Mean Chick Weight (g) +/- SE", x = "Experimental Diet") %>% 
+  gf_theme(theme_classic())
+```
 
 ### Violin plots
 Violin plots have become a popular alternative to boxplots in the last 5 years. You can easily do this. Let's also overlay the points, change the y-axis label, and set the colours. In other words, we are going to:
