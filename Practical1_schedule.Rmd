@@ -338,7 +338,15 @@ diet_stats
 ```
 
 
-Now you have a data frame `diet_stats` that contains summary statistics describing your dataset that might be useful in a report. 
+Now you have a data frame `diet_stats` that contains summary statistics describing your dataset that might be useful in a report. The different diet codes are actually stored in the "row names" of the `diet_stats` table. Sometimes you'll find it more useful to explicitly put these categorical variables into a column, especially when plotting data. This is easy to do:
+
+```{r}
+# Add a column that contains the diet codes currently stored as row names
+diet_stats$diet <- row.names(diet_stats)
+# Notice how the diet codes now also appear in a column
+diet_stats
+```
+
 
 # Basic summary plots
 ## Goal-oriented philosophy
