@@ -398,19 +398,8 @@ gf_histogram(~weight, data=diet_dat)
 
 You can see that across all four diets combined, the most common chick weights are around 200g, although there is quite a lot of variation from less than 100g to over 350g.
 
-### Simple bar chart of total numbers of chicks per diet
-Here we want to create a simple bar chart showing the number of chicks in each of the four diets on day 21 (`diet_dat`). You may have noticed ealier that there are not quite the same number of chicks present after 21 days in each diet. We don't need to work out the count, as this will be calculated automatically by `gf_bar()` when you only give it one variable: 
-
-```{r, eval = TRUE}
-# Create a bar chart showing numbers of birds in each diet
-gf_bar(~diet, data = diet_dat) # Plot bar chart
-```
-
-So, survivorship appears to be best on diet A, and worst on diet D.
-
 ### Chain plot commands to improve graphs
 After you have created a basic plot, you will often want to improve it. I recommend do this sequentially, i.e. get your basic plot displayed, then gradually add extra lines of R code to improve it. Taking the above bar chart, the labels on the horizontal and vertical axes should be better. To chain a series of plot commands together we slightly tweak our original template to:
-
 
 &nbsp;
 
@@ -438,13 +427,50 @@ Let's begin by improving the axis labels, then getting rid of the miserable grey
 1. add the pipe symbol `%>%` to the end of your existing `gf_bar()` line
 2. indent the start of your `gf_labs()` line by a couple of spaces. RStudio should do this automatically - it makes your code more readable.
 
+```{r}
+# Create a frequency histogram of chick weights
+gf_histogram(~weight, data=diet_dat) %>% 
+  gf_labs(x = "Chick weight (g)", y = "Number of birds")
+```
+
+Next, we will add an additional chain symbol `%>%` to modify or "refine" the "theme" or overall appearance using `gf_theme()`. A good general theme you will find suitable for most of your work is the "classic" theme, `theme_classic()`, which is a simple yet clear style. I do **not** recommend the default miserable grey background for reports etc:
+
+```{r}
+# Create a frequency histogram of chick weights
+gf_histogram(~weight, data=diet_dat) %>% 
+  gf_labs(x = "Chick weight (g)", y = "Number of birds") %>% 
+  gf_theme(theme_classic())
+```
+
+### Smoothed density plots
+Often if your sample size is relatively small it can be difficult to understand the patterns in your frequency histogram. A simple solution is to create a smoothed probability "density" curve for your data, making the overall shape easier to understand. We can use the `gf_density()` function. The vertical axis contains probabilities for each possible weight, so the `gf_labs()` also needs updating:
+
+```{r}
+# Create a probability density plot of chick weights
+gf_density(~weight, data=diet_dat) %>% 
+  gf_labs(x = "Chick weight (g)", y = "Probability density") %>% 
+  gf_theme(theme_classic())
+```
+
+
+### Simple bar chart of total numbers of chicks per diet
+Here we want to create a simple bar chart showing the number of chicks in each of the four diets on day 21 (`diet_dat`). You may have noticed ealier that there are not quite the same number of chicks present after 21 days in each diet. We don't need to work out the count, as this will be calculated automatically by `gf_bar()` when you only give it one variable: 
+
+```{r, eval = TRUE}
+# Create a bar chart showing numbers of birds in each diet
+gf_bar(~diet, data = diet_dat) # Plot bar chart
+```
+
+So, survivorship appears to be best on diet A, and worst on diet D.
+
+
 ```{r, echo = TRUE}
 # Create a bar chart showing numbers of birds in each diet
 gf_bar(~diet, data = diet_dat) %>% # Plot bar chart THEN
   gf_labs( y = "Number of chicks (n)", x = "Experimental Diet") # Modify axis labels
 ```
 
-Finally, we will add an additional chain symbol `%>%` to modify or "refine" the "theme" or overall appearance using `gf_theme()`. A good general theme you will find suitable for most of your work is the "classic" theme, `theme_classic()`, which is a simple yet clear style:
+
 
 
 ```{r, eval = TRUE}
