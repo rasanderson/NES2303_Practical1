@@ -465,7 +465,7 @@ Let us create a boxplot to show chick weight after 21 days on the four different
 gf_boxplot(weight~diet, data = diet_dat)
 ```
 
-At the moment the axis labels are just `weight` and `Diet`. Try changing them into something more meaningful by "chaining" on an additional line that begins `gf_labs()`, so the vertical axis label reads "Weight (g)" as you should always include units where possible. Also edit your code to remove the grey background by adding an extra line for `gf_theme()`.
+At the moment the axis labels are just `weight` and `Diet`. Edit your code into something more meaningful by "chaining" on an additional line that begins `gf_labs()`, so the vertical y axis label reads "Weight (g)" as you must always include units where possible and the horizontal x-axis is "Experimental Diet". Once this works edit your plotting code to add a final, third line, that removes the grey background via `gf_theme()`. Please ask a demonstrator if you have problems.
 
 ### Barcharts
 Barcharts are less useful than boxplots as they give a poorer indication of the spread of your data around the mean, but they are common in reports and you might be asked to create one. It is essential to display the means +/- SE or means +/- 95% CI on your bars (and state whether the error bars represent SE or CI in your figure caption!!). Unfortunately they are a bit more difficult to create than boxplots. Let's create a barchart for your mean chick weight data, with error bars. All the information is stored in your `diet_stats` table from earlier. We'll do this in stages, so keep editing and re-running the **same** section of R code so you can see the changes (you only want one barchart, not several):
