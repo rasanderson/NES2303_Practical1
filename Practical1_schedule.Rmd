@@ -494,61 +494,6 @@ gf_col(chick_mean ~ diet, data = diet_stats) %>%
   gf_theme(theme_classic())
 ```
 
-### Violin plots
-Violin plots have become a popular alternative to boxplots in the last 5 years. You can easily do this. Let's also overlay the points, change the y-axis label, and set the colours. In other words, we are going to:
-
-1. Alter the plot type from boxplot to violin plot
-2. Add data points that are shaped according to the diet the `gf_sina()` function will be useful
-3. Modify the labels so that the units (g) are displayed with the weight
-4. Modify the theme to match the bar plot you previously made
-
-Start with a very simple violin plot. Add the following lines to the end of your `practical1.R` script. Remember to hit the  <kbd>Ctrl</kbd> + <kbd>Enter</kbd> key combinations after each edit, so you can see what happens as you gradually edit your R script:
-
-```{r, eval=FALSE}
-# Create a violin plot showing distribution of chick weights on each diet
-gf_violin(weight ~ diet, data = diet_dat) 
-```
-
-Now add the individual data points using `gf_sina()` which creates a "jitter" around their positions so that they are easier to visualise, and hit the <kbd>Ctrl</kbd> + <kbd>Enter</kbd> key combinations to see the changes:
-
-```{r, eval=FALSE}
-# Create a violin plot showing distribution of chick weights on each diet
-gf_violin(weight~diet, data = diet_dat) %>%  # THEN
-  gf_sina()                                  # add jittered points
-```
-
-Now change the y-axis label, using `gf_labs()` as before, and hit the <kbd>Ctrl</kbd> + <kbd>Enter</kbd> key combinations:
-
-```{r, eval=FALSE}
-# Create a violin plot showing distribution of chick weights on each diet
-gf_violin(weight~diet, data = diet_dat) %>%   # THEN
-  gf_sina() %>%                               # add jittered points THEN
-  gf_labs(y = "Weight (g)")                   # change the vertical axis label
-```
-
-Next, smarten up the overall "theme" of the plot with `gf_theme()` and hit the <kbd>Ctrl</kbd> + <kbd>Enter</kbd> key combinations:
-
-```{r, eval=FALSE}
-# Create a violin plot showing distribution of chick weights on each diet
-gf_violin(weight~diet, data = diet_dat) %>%     # THEN
-  gf_sina() %>%                                 # add jittered points THEN
-  gf_labs(y = "Weight (g)") %>%                 # change the vertical axis label THEN
-  gf_theme(theme_classic())                     # set theme 
-```
-
-Finally, colour in the violin shapes with a colour of your choosing via the `fill` option (I'm going to use grey) and set its transparency with the `alpha` option. Play around with the arguments `fill` and `alpha`: play around with them to see what they do.
-
-You should end up with a plot that looks like the one below
-
-```{r}
-# Create a violin plot showing distribution of chick weights on each diet
-gf_violin(weight~diet, fill="grey", alpha = 0.3, data = diet_dat) %>%       # THEN
-  gf_sina() %>%                                 # add jittered points THEN
-  gf_labs(y = "Weight (g)") %>%                 # change the vertical axis label THEN
-  gf_theme(theme_classic())                     # set theme 
-```
-
-Hopefully you can see that it is possible to build complex plots step-by-step in this manner.
 
 ## Plot two variables; continuous horizontal axis
 In the previous example the horizontal axis was divided into discrete categories. Often your horizontal axis will be continuous, and line or point plots will be most useful. Let's begin by plotting your chick growth data with `growth_dat` day from day 0 (hatching) to day 21 on the horizontal axis, and weight on the vertical axis. **Note** Remember to leave a few blank lines in your `practical1.R` script before beginning this plot. Hit the <kbd>Ctrl</kbd> + <kbd>Enter</kbd> key combinations to execute the code after each edit to understand the changes:
