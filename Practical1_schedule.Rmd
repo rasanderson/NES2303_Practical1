@@ -306,8 +306,18 @@ chick_se <- chick_sd/(sqrt(fav_dat$n))
 
 **Note:** It is important to modify your `Practical_1.R` script as you go along, adding additional comments using `#` symbols, so that if you come back after 6 months you will still understand the R script. Add some notes about the above commands as comments to demonstrate that you understand what each bit is doing.
 
+Finally, if you want to add your new `chick_se` variable onto the end of your `fav_dat` table as a new column, you can easily do this using the `cbind()` ("column bind") function. Notice how `fav_dat` is on both sides of the `<-` symbol as we are going to overwrite the old table with the new one:
+
+```{r}
+# Add the additional column of data to the table fav_dat
+fav_dat <- cbind(fav_dat, chick_se)
+# Display the revised table
+fav_dat
+```
+
+
 ## Assemble all your summary statistics into a new table 
-We have created summary statistics with mean, median, variance, standard deviation and standard error. It would be useful to put them all into one table, or data frame. This is easy to do using the (you guessed it!) `data.frame()` function:
+The `fav_dat` table contains rather a lot of information, some of which we don't need, and a more concise table would be useful. We have created summary statistics with mean, median, variance, standard deviation and standard error. It would be useful to put them all into one table, or data frame. This is easy to do using the (you guessed it!) `data.frame()` function:
 
  + `chick_mean`
  + `chick_med`
