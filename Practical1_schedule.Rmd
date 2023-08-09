@@ -72,7 +72,7 @@ This should open a blank R script at the top left of your screen. Before you go 
 library(mosaic)
 ```
 
-Position your cursor on `library(bio2020)` and hit the  <kbd>Ctrl</kbd> + <kbd>Enter</kbd>  key combination to send the command into the Console screen so that R executes it. You are likely to get several "Warning" messages, but don't worry about these. Only be concerned if a red "Error" message appears. Finally, before you go further, save your R script. 
+Position your cursor on `library(mosaic)` and hit the  <kbd>Ctrl</kbd> + <kbd>Enter</kbd>  key combination to send the command into the Console screen so that R executes it. You are likely to get several "Warning" messages, but don't worry about these. Only be concerned if a red "Error" message appears. Finally, before you go further, save your R script. 
 
 * Look at the name of your R script. It is probably called `Untitled1.R`
 * Also notice that its name is in red and that there is an asterisk, or * symbol, after its name, indicating it needs to be saved
@@ -125,14 +125,12 @@ Go to your R script, called `practical1.R`, and edit it so that it reads as foll
 # Practical 1 : introduction to basic summary statistics and graphs using chick
 # and bivalve data.
 
-library(bio2020)
+library(mosaic)
 
 # Read in data for chick diets and growth rates
 diet_dat <- read.csv("chick_diet.csv")
 growth_dat <- read.csv("chick_growth.csv")
 
-# Read in bivalve abundance data for 4 sites, 2 transects
-bivalves_dat <- read.csv("bivalves.csv")
 ```
 
 ```{r, echo = FALSE}
@@ -589,14 +587,16 @@ Make sure you save `Practical_1.R` using the **File -> Save** options from the m
 # Getting help
 I have put some useful guides to online books on the Canvas website, but there are some excellent online tutorials available, including [Coding Club](https://ourcodingclub.github.io/) which has been written by students for students. It does cover lots of advanced stuff (I don't understand it all) as well as the basics of R.
 
-R has its own built in help for functions. These are difficult to understand at first, but as the format is identical in every case they slowly become less daunting. To access the in-built help, put a `?` symbol into the console, followed by the name of the function. For example, in the R package `bio2020` I have written a function called `ordi_identify()` which you will learn how to use in Practical 6. If you wanted to view its help, you would type **in the Console window** (bottom left of RStudio) the following, and hit the <kbd>Enter</kbd> key:
+R has its own built in help for functions. These are difficult to understand at first, but as the format is identical in every case they slowly become less daunting. To access the in-built help, put a `?` symbol into the console, followed by the name of the function. For example, in the R package `mosaic` is the `favstats` function to calculate common summary statistics. If you wanted to view its help, you would type **in the Console window** (bottom left of RStudio) the following, and hit the <kbd>Enter</kbd> key:
 
 ```{r, eval=FALSE}
-?ordi_identify
+?favstats
 ```
 
-# Bivalves data
-You have already learnt a lot of key skills. We're now going to learn how to create a barchart based on the `bivalves_dat` dataset you imported earlier. This shows the mean numbers of bivalves (+/- standard error bars) at each site, colour-coded for each treatment:
+which will display the help for all the "aggregating" summary statistics functions (`mean`, `median`, `sd` etc.) as well as `favstats`.
+
+# Bivalves data (Optional: in your own time)
+If you wish, try and calculate the additional summary statistics and create the graphs for the `bivales_dat` dataset. This repeats some of the material you have already learnt, and will give you greater confidence in your use of key skills in R for summary statistics and data visualisation. We're now going to learn how to create a barchart based on the `bivalves_dat` dataset you imported earlier. This shows the mean numbers of bivalves (+/- standard error bars) at each site, colour-coded for each treatment:
 
 ```{r, echo = FALSE}
 bivalves_mean <- mean(abundance ~ site + transect, data=bivalves_dat)
