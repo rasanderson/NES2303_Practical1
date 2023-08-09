@@ -111,8 +111,8 @@ You should now see the following:
 
 This folder now has quite a number of entries. Exact appearance may differ slightly, but the screenshot shows default Windows settings where the full name of a file is not displayed:
 
-* `NES2303` (full name `NES2303.RProj`). Your RStudio Project settings created in the previous practical
 * `bivalves`, `chick_diet` and `chick_growth` (full names `bivalves.csv`, `chick_diet.csv` and `chick_growth.csv`). The three data files in CSV format just downloaded from Canvas
+* `NES2303` (full name `NES2303.RProj`). Your RStudio Project settings created in the previous practical
 * `practical0` and `practical1` (full names `practical0.R` and `practical1.R`). Your "script" files containing a record of your R commands.
 * `yield` and `yield` with slightly different icons (full names `yield.csv` and `yield.xlsx`). The two data files you worked with in the initial practical, one in Microsoft Excel format, the other in CSV format
 
