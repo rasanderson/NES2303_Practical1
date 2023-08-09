@@ -452,34 +452,6 @@ gf_density(~weight, data=diet_dat) %>%
   gf_theme(theme_classic())
 ```
 
-
-### Simple bar chart of total numbers of chicks per diet
-Here we want to create a simple bar chart showing the number of chicks in each of the four diets on day 21 (`diet_dat`). You may have noticed ealier that there are not quite the same number of chicks present after 21 days in each diet. We don't need to work out the count, as this will be calculated automatically by `gf_bar()` when you only give it one variable: 
-
-```{r, eval = TRUE}
-# Create a bar chart showing numbers of birds in each diet
-gf_bar(~diet, data = diet_dat) # Plot bar chart
-```
-
-So, survivorship appears to be best on diet A, and worst on diet D.
-
-
-```{r, echo = TRUE}
-# Create a bar chart showing numbers of birds in each diet
-gf_bar(~diet, data = diet_dat) %>% # Plot bar chart THEN
-  gf_labs( y = "Number of chicks (n)", x = "Experimental Diet") # Modify axis labels
-```
-
-
-
-
-```{r, eval = TRUE}
-# creating the bar chart 
-gf_bar(~diet, data = diet_dat) %>%  # Plot bar chart THEN
-  gf_labs( y = "Number of Chicks (n)", x = "Experimental Diet") %>% # Modify axis labels THEN
-  gf_theme(theme_classic()) # Change graph theme to remove grey backdrop
-```
-
 Building up graphs from simple to more complex ones like this by "chaining" commands together is always most reliable. Save your `practical1.R` script before continuing. Remember to save your scripts regularly.
 
 ## Plot two variables; categorical horizontal axis
