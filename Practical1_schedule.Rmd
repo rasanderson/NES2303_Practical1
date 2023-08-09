@@ -446,7 +446,7 @@ gf_bar(~diet, data = diet_dat) %>% # Plot bar chart THEN
   gf_labs( y = "Number of chicks (n)", x = "Experimental Diet") # Modify axis labels
 ```
 
-Finally, we will add an additional chain symbol `%>%` to modify or "refine" the "theme" or overall appearance using `gf_theme()`. Personally I like the "classic" theme, `theme_classic()`, which is a simple black-and-white one, although you might prefer the "minimal" theme, `theme_minimal()`:
+Finally, we will add an additional chain symbol `%>%` to modify or "refine" the "theme" or overall appearance using `gf_theme()`. A good general theme you will find suitable for most of your work is the "classic" theme, `theme_classic()`, which is a simple yet clear style:
 
 
 ```{r, eval = TRUE}
