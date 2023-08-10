@@ -185,7 +185,7 @@ str(diet_dat)
 
 # Summary statistics
 ## Goal-oriented approach
-Please have a look at the [Course Handbook](https://ncl.instructure.com/courses/23926/files/3203623?fd_cookie_set=1) on the Canvas website. You will see there that we are using a goal-oriented approach, where your goal can be a simple statistic, a data analysis or a graph. Let us start with some simple statistics on the `diet_dat` data. You will recall that in the goal-oriented approach we have:
+Please have a look at the **Course Handbook** on the Canvas website. You will see there that we are using a goal-oriented approach, where your goal can be a simple statistic, a data analysis or a graph. Let us start with some simple statistics on the `diet_dat` data. You will recall that in the goal-oriented approach we have:
 
 &nbsp;
 
@@ -246,12 +246,12 @@ chick_med
 ```
 
 
-Both median, and especially mean, can be sensitive to outliers: move the sliders on the [interactive graphs](https://naturalandenvironmentalscience.shinyapps.io/variation/#section-sensitivity-to-outliers) to make sure you understand the effects of outliers. To get a good understanding of our data we need to calculate some statistics that give us an idea of how our data is **spread** about the mean. If this is unfamiliar to you go back over other sections of the interactive website tutorial linked above.
+Both median, and especially mean, can be sensitive to outliers: move the sliders on the [interactive graphs](https://naturalandenvironmentalscience.shinyapps.io/NES2303_SS/#section-sensitivity-to-outliers) to make sure you understand the effects of outliers. To get a good understanding of our data we need to calculate some statistics that give us an idea of how our data is **spread** about the mean. If this is unfamiliar to you go back over other sections of the interactive website tutorial linked above.
 
 Thankfully because we are doing our analysis in R we don't have to calculate measures such as variance, standard deviation and standard error by hand, we can use functions to help us.
 
 ## Calculate the variance and standard deviation for each diet
-Please look at [this explanation of variance, or var](https://naturalandenvironmentalscience.shinyapps.io/variation/#section-variance-correcting-ss-for-the-number-of-records) and [this explanation of standard deviation, or sd](https://naturalandenvironmentalscience.shinyapps.io/variation/#section-standard-deviation-correct-units) that introduce these measures of spread. If you do not understand variance and standard deviation, please speak to myself or one of the demonstrators. You can also use Microsoft Teams to send a message to all the demonstrators for advice.  Calculation is straightforward in R, using the functions `var()` and `sd()` and substituting them in as our "goals":
+Please look at [this explanation of variance, or var](https://naturalandenvironmentalscience.shinyapps.io/NES2303_SS/#section-variance-correcting-ss-for-the-number-of-records) and [this explanation of standard deviation, or sd](https://naturalandenvironmentalscience.shinyapps.io/NES2303_SS/#section-standard-deviation-correct-units) that introduce these measures of spread. If you do not understand variance and standard deviation, please speak to myself or one of the demonstrators. You can also use Microsoft Teams to send a message to all the demonstrators for advice.  Calculation is straightforward in R, using the functions `var()` and `sd()` and substituting them in as our "goals":
 
 ```{r}
 # calculate the variance in chick weights on each diet
