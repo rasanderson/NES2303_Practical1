@@ -97,7 +97,7 @@ One of the reasons why R is so popular is that it allows you to do **reproducibl
 
 # Download and import data
 ## Download data files
-Go to Canvas and download `chick_diet.csv`, `chick_growth.csv` and `bivalves.csv` . Remember that when you download anything from a browser like Chrome or Edge, in general it will be stored in your "Downloads" folder. See the practical material for 30th September 2022 if you have forgotten the details. Therefore, before you can import the data, you need to copy it to your NES2303 project folder:
+Go to Canvas and download `chick_diet.csv`, `chick_growth.csv` and `bivalves.csv` . Remember that when you download anything from a browser like Chrome or Edge, in general it will be stored in your "Downloads" folder. See the practical material from last week if you have forgotten the details. Therefore, before you can import the data, you need to copy it to your NES2303 project folder:
 
 * Start the File Explorer from the Windows main menu
 * Navigate to your downloads folder
