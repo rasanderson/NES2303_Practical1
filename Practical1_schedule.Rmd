@@ -57,7 +57,7 @@ We will primarily focus on two datasets:
 Throughout this work you will be using the `mosaic` library, that you have already installed in "Practical 0", as it makes basic data summaries and graphics in R more straightforward
 
 # Start RStudio, open your NES2303 project, create R script
-If you did the first practical on 30th September 2022 this should be straightforward:
+If you did the first practical last week this should be straightforward:
 
 * Click on the Windows command button (bottom left of screen), type in RStudio and start the software
 * Inside RStudio on the main menu click on **File -> Recent Projects -> NES2303**
@@ -566,7 +566,13 @@ R has its own built in help for functions. These are difficult to understand at 
 which will display the help for all the "aggregating" summary statistics functions (`mean`, `median`, `sd` etc.) as well as `favstats`.
 
 # Bivalves data (Optional: in your own time)
-If you wish, try and calculate the additional summary statistics and create the graphs for the `bivales_dat` dataset. This repeats some of the material you have already learnt, and will give you greater confidence in your use of key skills in R for summary statistics and data visualisation. We're now going to learn how to create a barchart based on the `bivalves_dat` dataset you imported earlier. This shows the mean numbers of bivalves (+/- standard error bars) at each site, colour-coded for each treatment:
+This exercise builds on some of the material you have already learnt, and will give you greater confidence in your use of key skills in R for summary statistics and data visualisation. Import the CSV file into a `bivalves_dat` table in the usual way with `read.csv()`:
+
+```{r, echo=TRUE, eval=FALSE}
+bivalves_dat <- read.csv("bivalves.csv")
+```
+
+If you wish, try and calculate the additional summary statistics and create the graphs for the abundance of bivalves along two transects at four sites. We're now going to learn how to create a barchart based on the `bivalves_dat` dataset you imported earlier. This shows the mean numbers of bivalves (+/- standard error bars) at each site, colour-coded for each treatment:
 
 ```{r, echo = FALSE}
 bivalves_mean <- mean(abundance ~ site + transect, data=bivalves_dat)
