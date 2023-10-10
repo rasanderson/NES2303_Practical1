@@ -567,8 +567,8 @@ sum((mean(x1) - x1)^2)
 sum((mean(x2) - x2)^2)
 ```
 
-There is obviously a problem using SS to measure variability. The SS is 64 for
-the dataset with 12 values, but over 66 for the dataset with 30 values. Even
+There is obviously a problem using SS to measure variability. The SS is `r round(sum((mean(x1) - x1)^2), digits = 2)` for
+the dataset with 12 values, but 66.80 for the dataset with 30 values. Even
 though the dataset with 30 values has **less variability**, when judged by simple
 visual assessment or maximum and minimum values, the **SS is actually larger** for
 the bigger dataset.  Why do you think this problem has arisen?
