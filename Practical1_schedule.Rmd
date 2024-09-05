@@ -56,14 +56,16 @@ We will primarily focus on two datasets:
 
 Throughout this work you will be using the `mosaic` library, that you have already installed in "Practical 0", as it makes basic data summaries and graphics in R more straightforward
 
-# Start RStudio, open your NES2303 project, create R script
-If you did the first practical last week this should be straightforward:
+# Before you start
+## Essential first steps before you do this practical
+If you did the first practical last week these should be straightforward:
 
-* Click on the Windows command button (bottom left of screen), type in RStudio and start the software
-* Inside RStudio on the main menu click on **File -> Recent Projects -> NES2303**
-* On the RStudio main menu click on **File -> New File -> R Script**
+1. Click on the Windows command button (bottom left of screen), type in RStudio and start the software. (If asked to upgrade etc. ignore)
+2. Inside RStudio on the main menu click on **File -> Recent Projects -> NES2303**
+3. Look at the top-right of the RStudio window. You should see 'NES2303' displayed. **If it says 'Project: (None)' then please speak to a demonstrator.**
 
-This should open a blank R script at the top left of your screen. Before you go any further, I suggest you type into your script a couple of lines of comments to explain what the script is being used for. As you will be using the `mosaic` R package you should also "activate" it to make its extra commands available, using the `library()` function. (If for any reason you were unable to install `mosaic` please speak to a demonstrator first):
+## Setting up a new R script to record your work
+Now, on the RStudio main menu click on **File -> New File -> R Script** This should open a blank R script at the top left of your screen. Before you go any further, I suggest you type into your script a couple of lines of comments to explain what the script is being used for. As you will be using the `mosaic` R package you should also "activate" it to make its extra commands available, using the `library()` function:
 
 ```{r, eval = FALSE}
 # Practical 1 : introduction to basic summary statistics and graphs using chick
@@ -168,7 +170,7 @@ You should see summaries with minimum, maximum, median and means displayed for n
  2. How many variables (columns) and how many observations (rows) each dataset? 
  3. How heavy is the heaviest chicken? And is this the same in both of the chick datasets?
 
-**Reminder** Make sure to comment your script, using the `#` write some comments (notes) to annotate the script that you have just written so that you know what all the lines do, e.g.
+**Reminder** Make sure to comment your script, using the `#` write some comments (notes) to annotate the script that you have just written so that you know what all the lines do. NOTE THERE ARE ALSO BLANK LINES BETWEEN COMMANDS TO MAKE THE SCRIPT MORE READABLE!
 
 ```{r, eval = FALSE, echo= TRUE}
 # Display the first few lines of the chick diet data
@@ -231,13 +233,21 @@ median(weight ~ diet, data = diet_dat)
 
 The above two lines print the mean and median on the screen. If you do not remember the difference between means and medians, have a look at [Measures of Central Tendancy](https://naturalandenvironmentalscience.shinyapps.io/variation/#section-measures-of-central-tendency). You can also store the results of your mean and median in temporary variables `chick_mean` and `chick_med` for later re-use. Nothing is actually printed onto the screen when you store the data in `chick_mean` or `chick_med` variables but you can display it simply by entering the variable name in your script, or even the Console window (bottom left of RStudio) and hitting the Enter key:
 
-```{r, echo = TRUE}
+```{r, echo = TRUE, eval=FALSE}
+# Save means in temporary variable called chick_mean
+chick_mean <- mean(weight~diet, data = diet_dat)
+
+# Save medians in temporary variable called chick_med
+chick_med <- median(weight~diet, data = diet_Dat)
+```
+```{r, echo = FALSE, eval=TRUE}
 # Save means in temporary variable called chick_mean
 chick_mean <- mean(weight~diet, data = diet_dat)
 
 # Save medians in temporary variable called chick_med
 chick_med <- median(weight~diet, data = diet_dat)
 ```
+
 
 ```{r, echo=TRUE, eval=FALSE}
 # Display the contents of your temporary variables
