@@ -233,14 +233,7 @@ median(weight ~ diet, data = diet_dat)
 
 The above two lines print the mean and median on the screen. If you do not remember the difference between means and medians, have a look at [Measures of Central Tendancy](https://naturalandenvironmentalscience.shinyapps.io/variation/#section-measures-of-central-tendency). You can also store the results of your mean and median in temporary variables `chick_mean` and `chick_med` for later re-use. Nothing is actually printed onto the screen when you store the data in `chick_mean` or `chick_med` variables but you can display it simply by entering the variable name in your script, or even the Console window (bottom left of RStudio) and hitting the Enter key:
 
-```{r, echo = TRUE, eval=FALSE}
-# Save means in temporary variable called chick_mean
-chick_mean <- mean(weight~diet, data = diet_dat)
-
-# Save medians in temporary variable called chick_med
-chick_med <- median(weight~diet, data = diet_Dat)
-```
-```{r, echo = FALSE, eval=TRUE}
+```{r, echo = TRUE, eval=TRUE}
 # Save means in temporary variable called chick_mean
 chick_mean <- mean(weight~diet, data = diet_dat)
 
@@ -513,12 +506,14 @@ In the previous example the horizontal axis was divided into discrete categories
 gf_point(weight~time, data=growth_dat)
 ```
 
-You can see that the chicks get heavier with time, as expected. The problem with this graph is that it does not indicate that we actually have four different diets. So let's colour the points accordingly:
+You can see that the chicks get heavier with time, as expected. The problem with this graph is that it does not indicate that we actually have four different diets. So let's colour the points accordingly. Remember that diet is another *explanatory* variable; we have two explanatories we want to visualise, `time` and `diet`. So rather than putting `colour = diet` we use `colour = ~diet` to indicate that it is explanatory with the `~` or "tilde" symbol:
 
 ```{r}
 # Scatterplot of change in chick weight over time, coloured by diet
 gf_point(weight~time, colour = ~diet, data=growth_dat)
 ```
+
+Note that writing `gf_point(weight~time + diet, data=growth_dat)` will give an error as `gf_point()` would not know whether to put `time` or `diet` on the x-axis. 
 
 Next, let's join up the points with lines, by chaining into the `gf_line()` function:
 
@@ -575,7 +570,8 @@ R has its own built in help for functions. These are difficult to understand at 
 
 which will display the help for all the "aggregating" summary statistics functions (`mean`, `median`, `sd` etc.) as well as `favstats`.
 
-# Bivalves data (Optional: in your own time)
+# Bivalves data (in your own time)
+## The problem: create coloured bar chart with error bars
 This exercise builds on some of the material you have already learnt, and will give you greater confidence in your use of key skills in R for summary statistics and data visualisation. Import the CSV file into a `bivalves_dat` table in the usual way with `read.csv()`:
 
 ```{r, echo=TRUE, eval=FALSE}
@@ -603,17 +599,20 @@ gf_col(bv_mean ~ site, fill= ~transect,
 
 ```
 
+
+## Begin with a boxplot
 Boxplots are much easier to create than barcharts, but you need to know how to make both types. Begin by creating a boxplot as shown below. **Hints**:
 
 * Your dataset is called `bivalves_dat`
 * The `gf_boxplot()` function can create a boxplot
-* Remember to set the `colour` option correctly
+* Remember to set the `colour` option correctly using the `~` symbol to indicate that `transect` is a response variable
 * You only need one line of code; no need to "pipe"
 
-```{r, echo=FALSE}
+```{r, echo=TRUE}
 gf_boxplot(abundance ~ site, colour= ~transect, data=bivalves_dat)
 ```
 
+## Create a table for barchart dataset
 Creating the bar chart is more complicated, therefore I'll talk you through the steps. You need to make a table (data frame) of 8 rows, one for each bar, that contains the mean abundance, the standard error, the transect, and the site code:
 
 ```{r, echo=FALSE}
@@ -634,7 +633,7 @@ Next, using your existing skills:
 * use the `favstats()` function with both `site` and `transect` as explanatories to create a table called `bivalves_fav` that contains columns of summary statistics, including a column called `n` which stores the numbers of observations at each site and transect
 * calculate `bivalves_se` by dividing `bivalves_sd` by the square root of the number of observations. **Hint** use the `sqrt()` function and `bivalves_fav$n` to access the column `n`
 
-```{r echo=FALSE}
+```{r echo=TRUE}
 bivalves_fav  <- favstats(abundance ~ site + transect, data=bivalves_dat)
 bivalves_se   <- bivalves_sd / sqrt(bivalves_fav$n)
 ```
@@ -654,7 +653,10 @@ bivalves_stats <- data.frame(bv_mean = bivalves_mean,
                              site = c("A", "B", "C", "D", "A", "B", "C", "D"))
 ```
 
-Check the contents of your `bivalves_stats` table to make sure it matches what is displayed above (either double-click on it in your RStudio Environment window at the top-right, or print it to the Console). We will use a stepwise approach to building your bar chart. First, a simple barplot:
+Check the contents of your `bivalves_stats` table to make sure it matches what is displayed above (either double-click on it in your RStudio Environment window at the top-right, or print it to the Console).
+
+## Create a simple stacked barchart
+We will use a stepwise approach to building your bar chart. First, a simple barplot:
 
 ```{r}
 gf_col(bv_mean ~ site, data = bivalves_stats)
@@ -667,13 +669,17 @@ but this ignores transect, as we want the data for each site displayed for each 
 gf_col(bv_mean ~ site, fill= ~transect, data = bivalves_stats)
 ```
 
-The problem here is that this is a 'stacked' barchart: these are also popular in science, but is not what we want here. So we'll use the `position_dodge` option to move the bars side-by-side:
+The problem here is that this is a 'stacked' barchart: these are also popular in science, but is not what we want here. We want the coloured bars that represent each transect side-by-side. 
+
+## "Dodge" the bars side-by-side
+Putting the coloured bars for each transect side by side is called "dodging" the bars. So we'll use the `position_dodge` option to move the bars side-by-side:
 
 ```{r}
 gf_col(bv_mean ~ site, fill= ~transect,
        position=position_dodge(), data = bivalves_stats)
 ```
 
+## Add error bars
 Now we can add the error bars using the `gf_errorbar` function. We have to express both the error bar above and below the line, and that this is being done by `site`. So we include two little subtractions and additions to the `gf_errorbar` function to indicate that our standard error is above and below the mean:
 
 ```{r}
@@ -700,4 +706,5 @@ gf_col(bv_mean ~ site, fill= ~transect,
               position=position_dodge(0.9), width = 0.2)
 ```
 
+## Final steps
 The final steps I will leave to you - try and tidy up the axis labels, and change the theme of the plot to remove the grey background.
