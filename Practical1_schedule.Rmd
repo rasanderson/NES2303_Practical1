@@ -1,12 +1,23 @@
 ---
 title: 'Practical 1: Data import Summary and display'
-author: "NES2303"
-output:
-  html_document:
+author: "Roy Sanderson, Will Reid"
+format:
+  html:
     df_print: paged
-    number_sections: true
-  word_document:
-    number_sections: true
+    number-sections: true
+    toc: true
+    toc-depth: 1
+    embed-resources: true
+    css: custom.scss
+  docx:
+    toc: true
+    toc-depth: 1
+    number-sections: true
+    reference_docx: template.docx
+format-links: false
+editor_options:
+  markdown:
+    wrap: sentence
 ---
 
 ```{r setup, include=FALSE}
@@ -61,8 +72,8 @@ Throughout this work you will be using the `mosaic` library, that you have alrea
 If you did the first practical last week these should be straightforward:
 
 1. Click on the Windows command button (bottom left of screen), type in RStudio and start the software. (If asked to upgrade etc. ignore)
-2. Inside RStudio on the main menu click on **File -> Recent Projects -> NES2303**
-3. Look at the top-right of the RStudio window. You should see 'NES2303' displayed. **If it says 'Project: (None)' then please speak to a demonstrator.**
+2. Inside RStudio on the main menu click on **File -> Recent Projects -> NES2504**
+3. Look at the top-right of the RStudio window. You should see 'NES2504' displayed. **If it says 'Project: (None)' then please speak to a demonstrator.**
 
 ## Setting up a new R script to record your work
 Now, on the RStudio main menu click on **File -> New File -> R Script** This should open a blank R script at the top left of your screen. Before you go any further, I suggest you type into your script a couple of lines of comments to explain what the script is being used for. As you will be using the `mosaic` R package you should also "activate" it to make its extra commands available, using the `library()` function:
@@ -95,17 +106,17 @@ Whilst there are both biology and zoology students on this course, with a wide r
 9. Export any graphs or tables from R to Microsoft Word
 10. Write a report describing your findings
 
-One of the reasons why R is so popular is that it allows you to do **reproducible** research. Several weeks or even months may pass between your data analyses (steps 6 and 7), and writing your report (step 10) but your R script will provide a complete record of what you have done. Indeed, even the final report can be written in R, to automatically include relevant graphs, data analyses etc. All the Microsoft Word documents on the NES2303 Canvas pages are actually written in RStudio, and auto-converted to Word, so I can skip Step 9 above!
+One of the reasons why R is so popular is that it allows you to do **reproducible** research. Several weeks or even months may pass between your data analyses (steps 6 and 7), and writing your report (step 10) but your R script will provide a complete record of what you have done. Indeed, even the final report can be written in R, to automatically include relevant graphs, data analyses etc. All the Microsoft Word documents on the NES2504 Canvas pages are actually written in RStudio, and auto-converted to Word, so I can skip Step 9 above!
 
 # Download and import data
 ## Download data files
-Go to Canvas and download `chick_diet.csv`, `chick_growth.csv` and `bivalves.csv` . Remember that when you download anything from a browser like Chrome or Edge, in general it will be stored in your "Downloads" folder. See the practical material from last week if you have forgotten the details. Therefore, before you can import the data, you need to copy it to your NES2303 project folder:
+Go to Canvas and download `chick_diet.csv`, `chick_growth.csv` and `bivalves.csv` . Remember that when you download anything from a browser like Chrome or Edge, in general it will be stored in your "Downloads" folder. See the practical material from last week if you have forgotten the details. Therefore, before you can import the data, you need to copy it to your NES2504 project folder:
 
 * Start the File Explorer from the Windows main menu
 * Navigate to your downloads folder
 * Hold down the <kbd>Ctrl</kbd> key and with your mouse, left-click on `chick_diet.csv`, `chick_growth.csv` and `bivalves.csv`. Holding down the <kbd>Ctrl</kbd> allows you to select multiple files
 * Right click and select "Copy"
-* Navigate to your "NES2303" folder, right-click in a blank area inside the NES2303 folder and select "Paste"
+* Navigate to your "NES2504" folder, right-click in a blank area inside the NES2504 folder and select "Paste"
 
 You should now see the following:
 
@@ -114,11 +125,11 @@ You should now see the following:
 This folder now has quite a number of entries. Exact appearance may differ slightly, but the screenshot shows default Windows settings where the full name of a file is not displayed:
 
 * `bivalves`, `chick_diet` and `chick_growth` (full names `bivalves.csv`, `chick_diet.csv` and `chick_growth.csv`). The three data files in CSV format just downloaded from Canvas
-* `NES2303` (full name `NES2303.RProj`). Your RStudio Project settings created in the previous practical
+* `NES2504` (full name `NES2504.RProj`). Your RStudio Project settings created in the previous practical
 * `practical0` and `practical1` (full names `practical0.R` and `practical1.R`). Your "script" files containing a record of your R commands.
 * `yield` and `yield` with slightly different icons (full names `yield.csv` and `yield.xlsx`). The two data files you worked with in the initial practical, one in Microsoft Excel format, the other in CSV format
 
-**Where should you store your data files?** For this course you should be fine storing your data in your NES2303 project folder, as you will only have a relatively small number of files to work with. In general, however, it is better to create a "Data" subfolder, and store all your data files there. This leads to less clutter and helps you be more organised. If you use this idea, simply add `Data/` before the data file name when you use the `read.csv()` command.
+**Where should you store your data files?** For this course you should be fine storing your data in your NES2504 project folder, as you will only have a relatively small number of files to work with. In general, however, it is better to create a "Data" subfolder, and store all your data files there. This leads to less clutter and helps you be more organised. If you use this idea, simply add `Data/` before the data file name when you use the `read.csv()` command.
 
 ## Import your data into R
 Go to your R script, called `practical1.R`, and edit it so that it reads as follows. Your script **must** contain comments, blank lines, spaces around the `<-` assign symbol etc so that it is readable!!
@@ -145,7 +156,7 @@ bivalves_dat <- read.csv("Data/bivalves.csv")
 ```
 
 
-Save your script by selecting **File -> Save** from the main RStudio menu. Next, position your mouse cursor on the first of the three `read.csv` lines, and hit the <kbd>Ctrl</kbd> + <kbd>Enter</kbd> key combinations several times to send the commands to the RStudio Console where they will be run. If you receive an error message, check you've copied the CSV files over from Downloads to your NES2303 project folder, look for any spelling errors (R is case-sensitive too), check you've typed `read.csv` and not `read-csv`, make sure you've surrounded the CSV filenames with opening and closing `"` symbols, and finally ask a demonstrator.
+Save your script by selecting **File -> Save** from the main RStudio menu. Next, position your mouse cursor on the first of the three `read.csv` lines, and hit the <kbd>Ctrl</kbd> + <kbd>Enter</kbd> key combinations several times to send the commands to the RStudio Console where they will be run. If you receive an error message, check you've copied the CSV files over from Downloads to your NES2504 project folder, look for any spelling errors (R is case-sensitive too), check you've typed `read.csv` and not `read-csv`, make sure you've surrounded the CSV filenames with opening and closing `"` symbols, and finally ask a demonstrator.
 
 
 ## Check your data has been imported correctly
@@ -210,20 +221,20 @@ We can calculate some summary statistics to see if there are differences between
 &nbsp;
 
 <center>
-<h2><strong><span class="boxed">simple statistic</span> ( <span class="boxed">chick weights</span> ~ <span class="boxed">diet</span> , data = <span class="boxed">diet_dat</span>)</strong> 
+<h2><strong><span class="boxed">statistic</span> ( <span class="boxed">chick weights</span> ~ <span class="boxed">diet</span> , data = <span class="boxed">diet_dat</span>)</strong> 
 </h2></center>
 
 &nbsp;
 
 where:
 
-+ **simple statistic** = the statistic that we want to calculate, e.g. mean, median, sd, etc.
++ **statistic** = the statistic that we want to calculate, e.g. mean, median, sd, etc.
 + **chick weights** = the weight of the individual chicks on the different diets at the end of the 21 day study. This is your **_response_** variable.
 + **diet** = the column describing which diet the chicks were fed. This is your **_explanatory_** variable as it should be obvious that diet might or might not determine chick weight, but the reverse  cannot true.
 + **diet_dat** = the table (data frame) of data containing the columns for chick weights and diets
 + **...** = options. This has been omitted as not needed in this first example
 
-We can now replace the "simple statistic" above with what we want to calculate, and use the correct names `weight` and `diet` for the two columns in `diet_dat`. Add the following lines to the end of your `practical1.R` script and execute them:
+We can now replace the "statistic" above with what we want to calculate, and use the correct names `weight` and `diet` for the two columns in `diet_dat`. Add the following lines to the end of your `practical1.R` script and execute them:
 
 ```{r}
 # Calculate arithmetic mean and medians for the chick weights
@@ -249,12 +260,12 @@ chick_med
 ```
 
 
-Both median, and especially mean, can be sensitive to outliers: move the sliders on the [interactive graphs](https://naturalandenvironmentalscience.shinyapps.io/NES2303_SS/#section-sensitivity-to-outliers) to make sure you understand the effects of outliers. To get a good understanding of our data we need to calculate some statistics that give us an idea of how our data is **spread** about the mean. If this is unfamiliar to you go back over other sections of the interactive website tutorial linked above.
+Both median, and especially mean, can be sensitive to outliers: move the sliders on the [interactive graphs](https://naturalandenvironmentalscience.shinyapps.io/NES2504_SS/#section-sensitivity-to-outliers) to make sure you understand the effects of outliers. To get a good understanding of our data we need to calculate some statistics that give us an idea of how our data is **spread** about the mean. If this is unfamiliar to you go back over other sections of the interactive website tutorial linked above.
 
 Thankfully because we are doing our analysis in R we don't have to calculate measures such as variance, standard deviation and standard error by hand, we can use functions to help us.
 
 ## Calculate the variance and standard deviation for each diet
-Please look at [this explanation of variance, or var](https://naturalandenvironmentalscience.shinyapps.io/NES2303_SS/#section-variance-correcting-ss-for-the-number-of-records) and [this explanation of standard deviation, or sd](https://naturalandenvironmentalscience.shinyapps.io/NES2303_SS/#section-standard-deviation-correct-units) that introduce these measures of spread. If you do not understand variance and standard deviation, please speak to myself or one of the demonstrators. You can also use Microsoft Teams to send a message to all the demonstrators for advice.  Calculation is straightforward in R, using the functions `var()` and `sd()` and substituting them in as our "goals":
+Please look at [this explanation of variance, or var](https://naturalandenvironmentalscience.shinyapps.io/NES2504_SS/#section-variance-correcting-ss-for-the-number-of-records) and [this explanation of standard deviation, or sd](https://naturalandenvironmentalscience.shinyapps.io/NES2504_SS/#section-standard-deviation-correct-units) that introduce these measures of spread. If you do not understand variance and standard deviation, please speak to myself or one of the demonstrators. You can also use Microsoft Teams to send a message to all the demonstrators for advice.  Calculation is straightforward in R, using the functions `var()` and `sd()` and substituting them in as our "goals":
 
 ```{r}
 # calculate the variance in chick weights on each diet
@@ -372,7 +383,7 @@ Here your y-variable is plotted on the vertical axis, and your x-variable on the
 &nbsp;
 
 <center>
-<h2><strong><span class="boxed">plot type</span> (~ <span class="boxed">horizontal axis variable</span> , data = <span class="boxed">mydata</span>, ... )</strong> 
+<h2><strong><span class="boxed">plot type</span> (~ <span class="boxed">horizontal axis</span> , data = <span class="boxed">mydata</span>, ... )</strong> 
 </h2></center>
 
 &nbsp;
@@ -392,7 +403,18 @@ You can also overlay plotting elements on top of each other, change colours, axi
 ## Plotting one variable
 ### Frequency histogram
 This is probably the most common type of single variable graph you will create. It shows the frequency (i.e. count of 
-numbers of cases) on vertical y-axis for a continuous numeric variable on horizontal x-axis. The frequency is calculated for you automatically. Let's look at the overall frequency histogram of your chick weights. Add the following lines to the end of your `practical1.R` script, save it. **Note** Remember to leave a few blank lines in your `practical1.R` script before beginning the commands for this plot, to make your script more readable. Run the new lines by hitting the <kbd>Ctrl</kbd> + <kbd>Enter</kbd> key combinations as usual:
+numbers of cases) on vertical y-axis for a continuous numeric variable on horizontal x-axis. The frequency is calculated for you automatically. Again, from a "goal-oriented" perspective it is:
+
+&nbsp;
+
+<center>
+<h2><strong><span class="boxed">histogram</span> (  ~ <span class="boxed">weight</span> , data = <span class="boxed">diet_dat</span>)</strong> 
+</h2></center>
+
+&nbsp;
+
+
+Let's look at the overall frequency histogram of your chick weights. Add the following lines to the end of your `practical1.R` script, save it. **Note** Remember to leave a few blank lines in your `practical1.R` script before beginning the commands for this plot, to make your script more readable. Run the new lines by hitting the <kbd>Ctrl</kbd> + <kbd>Enter</kbd> key combinations as usual:
 
 ```{r}
 # Create a frequency histogram of chick weights
@@ -461,7 +483,17 @@ Building up graphs from simple to more complex ones like this by "chaining" comm
 ### Boxplots
 A boxplot is a very useful summary. It displays **horizontal line** for the median of each category, a **box** with the inter-quartile range (75% of the data fall within the box), **lines** above and below the box that represent 1.5 * the inter-quartile range, and (sometimes) outlier points. It provides a simple yet effective way of summarising the spread of your data, showing where most of the values fall, whether it is skewed etc.
 
-Let us create a boxplot to show chick weight after 21 days on the four different diets, again using the `diet_dat` dataset. We now need **two** variables, i.e. the y-axis (vertical axis) "response" variable of chick weight vs the x-axis (horizontal) of diet type:
+Let us create a boxplot to show chick weight after 21 days on the four different diets, again using the `diet_dat` dataset. We now need **two** variables, i.e. the y-axis (vertical axis) "response" variable of chick weight vs the x-axis (horizontal) of diet type
+
+&nbsp;
+
+<center>
+<h2><strong><span class="boxed">boxplot</span> ( <span class="boxed">chick weights</span> ~ <span class="boxed">chick diet</span> , data = <span class="boxed">diet_dat</span>)</strong> 
+</h2></center>
+
+&nbsp;
+
+which can be translated into R as:
 
 ```{r}
 # Display boxplot of final chick weight for each diet
@@ -532,7 +564,7 @@ gf_line(weight~time, colour = ~diet, data = growth_dat) %>% # THEN
   gf_theme(theme_classic())
 ```
 
-Later in the NES2303 course you will learn how to create fitted lines from models to add to your graphs.
+Later in the NES2504 course you will learn how to create fitted lines from models to add to your graphs.
 
 # Export data and plots from R/RStudio to Word or Excel
 ## Exporting tables of data
