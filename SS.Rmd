@@ -7,6 +7,7 @@ runtime: shiny_prerendered
 ```{r setup, include=FALSE}
 library(learnr)
 library(mosaic)
+library(ggside)
 set.seed(123)
 caterpillers <- read.csv("www/regression.csv")
 crop_growth <- read.csv("www/crop_growth.csv")
@@ -32,7 +33,7 @@ several measures in this tutorial:
 
 ### Why do I need to know this?
 You can drive a car without having to know exactly what a differential is doing,
-what is a carburettor is for, or why the engine has a crankshaft. However, if you
+what a carburettor is for, or why the engine has a crankshaft. However, if you
 have a basic understanding of its mechanics you'll find it easier to diagnose
 faults _What is causing that squeaking from the rear axle?_, and avoid expensive
 errors _Is it OK to put diesel in a petrol engine?_
@@ -52,15 +53,17 @@ interactive components where possible.
 
 ### What is 'central tendency'?
 We are so familiar with some concepts, such as averages, that it is easy to
-forget the biases implicit within the way in which they are calculate. For example,
+forget the biases implicit how they are calculated. For example,
 if you listen to any politicians speaking, they will always talk about "the average
-salary" that people are earning. This is not, however, the measure used by the
+salary" that people are earning. The mean is not, however, the measure used by the
 _Office for National Statistics_ (ONS) who actually collect the data. The latter
 always prefer to use the "median salary". There is actually a big difference
 between the two (about £5000 per year on current figures). The median salary is
 what most people earn. The average salary is "distorted" by a relatively small
 number of people earning incredibly high salaries (heads of FTSE100 companies 
-etc.) and so doesn't represent what most people earn.
+etc.) and so doesn't represent what most people earn. We need to understand the
+difference between how a mean and a median are calculated and what their values
+represent.
 
 ### Mean
 This is the most commonly use measure of central tendency, i.e. take the sum of
@@ -96,12 +99,23 @@ syntax:
 The median is the value where 50% of your dataset is above the median, and
 50% is below the median. It can be calculated using the `median()` function in R
 with a similar syntax to above. If your data are normally distributed (bell-shaped
-curve) the mean and median will be fairly similar:
+curve) the mean and median will be fairly similar as shown by the vertical lines. I've 
+also put a boxplot at the top of the graphs to help your interpretation:
 
 ```{r similar_mean_median}
- # generate 500 values at random with mean of 58
+# generate 500 values at random with mean of 58
+set.seed(123)
 normal_distribution <- rnorm(500, mean=58)
-gf_histogram(~ normal_distribution)
+mean_normal_distribution <- mean(~normal_distribution) * 1.0001
+median_normal_distribution <- median(~normal_distribution)
+sumstats <- data.frame(Statistic = c("Mean", "Median"),
+                       value = c(mean_normal_distribution, median_normal_distribution))
+ggplot(data.frame(normal_distribution), aes(x = normal_distribution)) +
+  geom_histogram(bins = 30) +
+  geom_vline(data = sumstats, aes(xintercept = value, col = Statistic)) +
+  geom_xsideboxplot(data = data.frame(normal_distribution), orientation = "y") +
+  theme_classic()
+#gf_histogram(~ normal_distribution)
 ```
 
 Mean = `r round(mean(normal_distribution), 2)`
@@ -111,8 +125,17 @@ However, if the data are skewed, then the mean and median drift apart:
 
 ```{r dissimilar_mean_median}
 # generate 500 values from a non-normal distribution
+# set.seed(123)
 non_normal_distribution <- rlnorm(500, meanlog=log(58))
-gf_histogram(~ non_normal_distribution)
+mean_non_normal_distribution <- mean(~non_normal_distribution)
+median_non_normal_distribution <- median(~non_normal_distribution)
+sumstats <- data.frame(Statistic = c("Mean", "Median"),
+                       value = c(mean_non_normal_distribution, median_non_normal_distribution))
+ggplot(data.frame(non_normal_distribution), aes(x = non_normal_distribution)) +
+  geom_histogram(bins = 30) +
+  geom_vline(data = sumstats, aes(xintercept = value, col = Statistic)) +
+  geom_xsideboxplot(data = data.frame(non_normal_distribution), orientation = "y") +
+  theme_classic()
 ```
 
 Mean = `r round(mean(non_normal_distribution), 2)`
@@ -120,7 +143,10 @@ Median = `r round(median(non_normal_distribution), 2)`
 
 Notice how in the skewed distribution, the median value gives a much more
 representative indication of the 'central tendancy' than the mean, which was
-distorted by a few very high values.
+distorted by a few very high values. The differences are also obvious in the two
+boxplots. In the normal distribution the boxplot is symmetrical, whereas in the
+non-normal distribution it is skewed, with most of the data being less than the
+mean.
 
 ## Sensitivity to outliers
 An **outlier** data point is a very extreme value. These can arise if you have
@@ -315,7 +341,7 @@ this variability in your data, but you still want to quantify it. Suppose you
 have the following 12 numbers from an experiment. This could all be from the
 same treatment for example:
 
-* 22.04 26.28 18.82 20.51 21.17 19.26 23.68 22.17 23.31 24.21 19.45 25.13
+* 22.04, 26.28, 18.82, 20.51, 21.17, 19.26, 23.68, 22.17, 23.31, 24.21, 19.45, 25.13
 
 You can easily store these in an R object called `x` using the `c()` function
 which _concatenates_ them all into a single object. Remember that just typing
@@ -378,10 +404,8 @@ question("What do you think is the best way to measure the variability around th
 
 
 ## The SS
-Fortunately, in the context of quantitative biology, the SS stands for **sum of
-squares** and has no unfortunate historical conotations. Simply be multiplying
-each difference by itself before adding them together, you can calculate a 
-measure of the variability. We can represent this algebraically as:
+The sum of squares, shortened to SS, is the simplest possible measure of variation around the mean. Whilst it has several limitations, as will be explained on later pages of this website, all the more advanced measures use SS as their basic foundation. First you calculate the difference of each observation from the mean of all the observations, then you square those differences (i.e. multiply the difference with itself) then add them together (the sum). This gives you the SS, a simple 
+measure of the variability in your data. We can represent this algebraically as:
 
 $$SS = \sum_{i = 1}^{n}(\overline{x}-x_i)^2$$
 where
@@ -524,14 +548,13 @@ Now go ahead and check the means, medians, minimum, maximum and SS for the two
 datasets, and see how they compare. We'll call your original dataset of 12 values
 `x1`, and the larger dataset of 30 values `x2`:
 
-```{r compare_two_SS, exercise = TRUE, code.completion = FALSE, exercise.lines = 15}
+```{r compare_two_SS, exercise = TRUE, code.completion = FALSE, exercise.lines = 16}
 x1 <- c(22.04, 26.28, 18.82, 20.51, 21.17, 19.26, 23.68, 22.17, 23.31, 24.21, 19.45, 25.13)
 x2 <- c(25.11, 20.83, 21.17, 19.82, 22.47, 22.54, 23.62, 22.31, 22.92, 23.55, 20.26, 23.53,
         21.91, 23.51, 24.56, 21.57, 23.71, 23.57, 21.73, 20.21, 21.59, 22.47, 22.04, 21.27,
         19.70, 24.10, 19.92, 20.19, 23.56, 21.06)
 
-```
-```{r compare_two_SS-solution}
+# Now we calculate the mean, median, minimum and maximum, and SS of your data
 mean(x1)
 mean(x2)
 median(x1)
@@ -544,8 +567,8 @@ sum((mean(x1) - x1)^2)
 sum((mean(x2) - x2)^2)
 ```
 
-There is obviously a problem using SS to measure variability. The SS is 62 for
-the dataset with 12 values, but over 66 for the dataset with 30 values. Even
+There is obviously a problem using SS to measure variability. The SS is `r round(sum((mean(x1) - x1)^2), digits = 2)` for
+the dataset with 12 values, but 66.80 for the dataset with 30 values. Even
 though the dataset with 30 values has **less variability**, when judged by simple
 visual assessment or maximum and minimum values, the **SS is actually larger** for
 the bigger dataset.  Why do you think this problem has arisen?
@@ -578,7 +601,7 @@ So even though your dataset with 30 records was less noisy than the one with 12
 observations, by simply taking the total of the squared differences from the 
 mean, we over-estimated the variation in the 30 observation dataset.
 
-We need therefore, some way of calculating a value that measures 'average' or
+We need some way of calculating a value that measures 'average' or
 'mean' sum of squares. This value was originally known as the **mean sum of squares**
 or **mean square** and you will sometimes see the letters **MS** in the outputs
 from a linear model or other analysis. However, it is more commonly known as
@@ -601,7 +624,7 @@ the mean is 30.0, and the first four observations are:
 
 what is the value of the fifth observation? You actually have **no choice** in
 what the fifth observation can be. It has to be **19** in order for the average
-to be 30.0  In other words, if you have 5 data points to calculate your (known)
+to be 30.0. In other words, if you have 5 data points to calculate your (known)
 mean, you have complete freedom as to what any four of those data points are,
 but no choice as to the final one. The same issue applies irrespective of how
 many observations are used to calculate your mean. For the 12 observation 
@@ -637,11 +660,30 @@ explanatory variable, you can use the syntax
 
 `var(response_variable ~ explanatory_variable, data=dataset_name)`
 
+### Two example datasets
+Here we will use two datasets, that you will have a chance to explore further in the practical classes. On these webpages they can be accessed as the `caterpillers` and `crop_growth` data.frames.
+
+#### Caterpillers dataset
+Many plants produce tannins as a defence chemical to reduce insect attack. It is what gives black tea its slightly bitter taste. This dataset is from an experiment to investigate the rate of insect growth (mg/day) as a result of the amount of tannins in the diet (mg). Both variables `growth` and `tannin` are continuous numeric. Here the `growth` is your "response" variable and the `tannin` your "explanatory" variable (think about cause and effect).
+
+#### Crop growth dataset
+Soil type has a major effect on the growth of many agricultural crops. These data are from a simple agricultural experiment to compare the yield of winter wheat, stored in the `growth` on three soil types, stored in the `soil` column. Here `growth` is a continuous numeric response variable, and `soil` is a categorical explanatory "factor" with three "levels" in it: `sand`, `clay` and `loam`.
+
 Have a go at calculating the variance for some of your data from the `caterpillers`
-and `crop_growth` datasets:
+and `crop_growth` datasets. Edit the following code to make it work, or click on the "Solution" button if you get stuck:
 
-```{r calc_variance, exercise = TRUE, code.completion = FALSE, exercise.lines = 10}
-
+```{r calc_variance, exercise = TRUE, code.completion = FALSE, exercise.lines = 11}
+# Overall variance for each column of caterpillers
+# Hint: you only need to enter one column name on the next two lines as you
+# are calculating the overall variance
+var( ~ , data=caterpillers)
+var( ~ , data=caterpillers)
+# Overall variance for crop yield
+# Hint: again only one variable name needed
+var( ~ , data = crop_growth)
+# Variance for each soil type
+# Hint: two variable names needed, one each side of ~ symbol
+var( ~ , data = crop_growth)
 
 ```
 ```{r calc_variance-solution}
@@ -695,8 +737,14 @@ experiment, how likely are they to reach the same conclusions as you did? This
 depends to a large extent on the **accuracy** and **precision** of your measurements.
 
 ## Accuracy and precision
-You will sometimes see these terms referred to as **bias** and **variance** 
-tradeoff. Imagine you are playing with bows and arrows, or on a dartboard.
+You will sometimes see the terms accuracy and precision referred to as **bias** 
+and **variance**. Whilst standard deviation (SD) gives you an insight into the
+"spread" of your data, this measurement is going to be influenced by the number
+of samples you take, and we use a minor adjustment to SD to calculate the 
+standard error (SE) to account for this.
+
+First, let's get a better understanding of what we mean by accuracy and precision.
+Imagine you are playing with bows and arrows, or on a dartboard.
 Ideally you want every one of your shots to hit exactly on target.
 
 ![If only I was this brilliant a player...](www/dart_board.jpg)
@@ -771,22 +819,29 @@ question("What the mean soil weight?",
          random_answer_order = TRUE)
 ```
 
+Next, we are going to show how you can take account of the number of samples to
+get a measurement of precision.
+
 ## How to measure accuracy and precision
 You have already used standard deviation ($\sigma$), and the other closely 
-related variable is standard error (se or SE). This can be calculated as:
+related variable is standard error (se or SE). SE is generally preferred when
+you present summary statistics in graphs or tables as it corrects for sample size.
+SEs can be calculated as:
 
 $$se = \frac{\sigma}{\sqrt{n}}$$
 
 Obviously, standard error is smaller than standard deviation, as you divide by
-the square root of $n$, but they relate to our dartboard example earlier:
-
-* standard deviation provides a measure of how far away you are from the "true"
-value, represented by the bull's eye on the dartboard. So it is a measure of
-**accuracy**
-* standard error provides a measure of the **precision** of you measurement, or
+the square root of $n$, but they relate to our dartboard example earlier in that
+standard error provides a measure of the **precision** of you measurement, or
 how much spread there is in the darts you threw at the dartboard.
 
-Both measures get smaller with increasing sample size $n$.
+Both SD and SE get smaller with increasing sample size $n$.
+
+You might be wondering how you measure the **accuracy** of your data. Actually 
+this is more challenging: if doing a laboratory study, you might have a reference
+sample against which you can calibrate your data. For field-based studies it is
+more difficult, but cross-referencing with previously published data from similar
+environments can help.
 
 ### How to calculate standard error in R
 Oddly enough, there isn't a built-in function to calculate SE, presumably
@@ -839,8 +894,16 @@ simple worked example of this [here](https://www.drdawnwright.com/why-divide-by-
 
 ## Confidence intervals
 The final type of measure of variation we will discuss are 95% Confidence
-Intervals, often abbreviated to 95% CI. When you have data from a normal or
-bell-shaped distribution (also known as a Gaussian distribution), roughly
+Intervals, often abbreviated to 95% CI. Imagine you do a laboratory experiment
+or field survey, collect some data, and calculate a mean value. If you repeated
+the same experiment or field survey later the same data, how confident would
+you be that you'd get roughly the same mean value? Of course, you'll never
+obtain exactly the same value, due to natural unexplained "noise" in your data.
+But if you were able to obtain the similar results 19 times out of 20 (95%) then
+you could be reasonably confident about your results.
+
+Confidence intervals are based on ideas from data from a normal or
+bell-shaped distribution (also known as a Gaussian distribution). Here, roughly
 95% of the data points occur within plus or minus about 2 standard deviations
 from the mean:
 
@@ -857,13 +920,62 @@ One advantage of 95% CI is that they can be displayed in a graph, and provide
 a more nuanced interpretation of your data than a simple "significant" or
 "non-significant" approach. 
 
-Use the `confint()` function to calculate 95% CI, for example:
+Use the `confint()` function to calculate 95% CI. In the following R code box, a
+dataset of 40 replicates from a laboratory experiment has recorded, stored in
+the variable `my_data`. Calculate both the mean and 95% CI of this dataset. Use 
+the solution button if you get stuck:
 
-```{r show_95CI, echo=TRUE}
+```{r prepare-show95CI}
 # Generate some random data
-some_data <- rnorm(n=100, mean=50, sd=1)
-
-# Display 95% around the mean
-confint(some_data)
+set.seed(123)
+my_data <- rnorm(n=40, mean=50, sd=1)
 ```
 
+```{r show_95CI, exercise=TRUE, exercise.setup = "prepare-show95CI", exercise.lines=7}
+# Hint: as you only have a single column of numbers in my_data you do not need
+# the ~ or data= components to your calls to mean() or confint()
+```
+
+```{r show_95CI-solution}
+# Display mean
+mean(my_data)
+
+# Display 95% around the mean
+confint(my_data)
+
+```
+
+$100 - 95 = 5$ and $5$  is split into two, for upper and lower values, that is
+$5 \div 2 = 2.5$, thus the results of the `confint()` function are displayed in
+columns 2.5% and 97.5%. This represents the blue area in the graph at the top of
+the page. 
+
+You should have a mean of 50.045, a lower 95% CI of 48.306 and an upper 95% CI
+of 51.717. You should interpret this as saying that if you were to repeat your
+laboratory experiment 20 times then 19 times out of 20 the mean value would be
+between 48.306 and 51.717. Don't misinterpret this statistic: it does **not**
+indicate that you are 95% confident your mean value is between 48.306 and 51.717.
+
+## Summary
+From this website you should now have a good grasp of:
+
++ Measures of central tendency, especially mean and median
++ Measures variability around the mean, especially variance, standard deviation,
+standard error and 95% confidence intervals
+
+Whilst some of the equations to calculate the variability around a mean may
+appear daunting at first sight, hopefully by building up from the simple sum of
+squares in a sequential manner you can see how they are related to each other.
+You will see all these terms, especially mean, variance and SE, in the outputs
+of many of your data analyses.
+
+
+### Further reading
++ [The Statistics with R: an introduction for Biologists (2nd Edition)](https://doi-org.libproxy.ncl.ac.uk/10.1093/oso/9780198798170.003.0005) 
+gives a clear explanation of standard errors, confidence intervals etc. in
+Chapter 5 "Estimation". It uses biological examples, although does not use the
+`mosaic` package so some commands are more complex.
++ [Statistical Modelling (2nd Edition)](https://dtkaplan.github.io/SM2-bookdown/) 
+[Chapter 3](https://dtkaplan.github.io/SM2-bookdown/describing-variation.html) gives a good explanation of variance and standard deviation, and
+[Chapter 5](https://dtkaplan.github.io/SM2-bookdown/confidence-intervals.html) covers confidence intervals. Some examples from social sciences, but
+uses `mosaic` package throughout.

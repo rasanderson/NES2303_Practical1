@@ -10,10 +10,10 @@ runtime: shiny_prerendered
 library(learnr)
 library(mosaic)
 library(ggformula)
-library(palmerpenguins) #Add install to bio2020 package
-library(datasauRus)     #Add install to bio2020 package
-library(flextable)      #Add install to bio2020 package
-#add emo package to bio2020 package
+library(palmerpenguins) 
+library(datasauRus)     
+library(flextable)      
+
 #caterpillers <- read.csv("www/regression.csv")
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 ```
@@ -26,28 +26,71 @@ Now that we are starting to think about analysing some data we need to know some
 - Generate summary statistics for our dataset (as a whole and for individual variables) 
 - Visualise and plot our data
 
-This tutorial focuses more on the 'how', offering you some code chunks that you can modify (and reuse in future should you need to)to help you familiarize yourself with carrying out such operations in R, the 'why' pertaining to many of the concepts touched on here will be covered in more detail in the Summary Stats tutorial.
+This tutorial focuses more on the 'how', offering you some code chunks that you can modify (and reuse in future should you wish) to help you familiarize yourself with carrying out basic operations in R, the 'why' pertaining to many of the concepts touched on here will be covered in more detail later tutorials.
 
-## Checking your data 
+## Think about your goal
+### The Most Important Template
+&nbsp;
+
+The following template is important because we can do so much with it.
+
+![](images/template_blank.png)
+
+### Template components
+It is useful to name the components of the template:
+
+![](images/template_filled.png)
+
+In general here you will have:
+
+* goal: calculate a summary statistic, do an analysis, create a graph
+* y ~ x: y is your response variable, x is your explanatory (see first lecture)
+* mydata: this is a `data.frame` with columns `x` and `y`
+
+We're hiding a bit of complexity in the template, and there will be times 
+that we will want to add some options, e.g. to handle missing data etc.  We'll indicate that by adding `...` to the end of the template.  Just don't let `...` become a distraction
+early on.
+
+![](images/template_with_options.png)
+
+Often you won't need to add options, but it depends on your data.
+
+### Other versions
+Here are some variations on the template that you might see
+```{r, eval = FALSE, echo=TRUE}
+# Goal only has one variable
+goal(~ x, data = mydata)
+
+# May want to group by another variable
+goal(y ~ x | z , data = mydata)
+
+# Might want to link in additional goals (usually for graphs)
+goal(y ~ x, data = mydata) %>% 
+  additional_goal()
+```
+
+In all these cases the word **`goal`** will be replaced by an R command to:
+
+* calculate a simple statistic
+* do a data analysis
+* create a graph.
+
+## Checking your data {#checking_your_data}
 
 Once you have collected your data and read it in to R (if you need a recap of reading in data go to back to the previous tutorial) the first thing to do is to check that you have the right data!
 
 Lets start by having a look at some data.
-We are going look at some data that contains information about penguins that was collected by researchers at the [palmer research station](https://pal.lternet.edu/)
+We are going look at some data that contains information about penguins that was collected by researchers at the [Palmer research station](https://pal.lternet.edu/)
 
 There are a couple of R functions that offer a useful jumping off point for us to get to know our dataset.
 
 + The `head()` function shows us the first 6 rows of the dataset
 + The `names()` function tells us what the variable names for each column of the dataset are
++ The `dim()` function gives the number of rows by columns in your table of data.
 
-Using the dataset called `penguins` run the above functions to get an idea of what the dataset contains
+Using the dataset called `penguins` run the above functions look at the first 6 rows, to get the column names, and display the number of rows and columns:
 
 ```{r data-check, exercise=TRUE, exercise.completion=FALSE}
-# The head function shows you the first 6 rows of your data set
-head(penguins)
-# The names() function tells you the names of each of your columns; you need to edit this next line
-# names()  
-# the dim() function allows you to see the number of rows and columns
 ```
 
 ```{r, data-check-solution}
@@ -62,7 +105,17 @@ dim(penguins)
 
 Now that we have checked our data and we are happy that we are looking at the correct data file and we know what all of the variable names are we can start to interrogate it a bit further.
 
-We can check the number of rows and columns using the `dim()` function or using `nrow()` or `ncol()` and we can investigate the structure of our data using `str()`
+We can check the number of rows and columns using the `dim()` function or using `nrow()` or `ncol()` and we can investigate the structure of our data using `str()` :
+
+```{r str_example, echo=TRUE}
+str(penguins)
+```
+
+Note the different types of data listed:
+
++ Factors - `species`, `island`, `sex`. These are categorical variables that contain two or more classes
++ num or "Numeric" - `bill_length_mm`, `bill_depth_mm`. These are numerical variables with decimal places
++ Int or "Integer" - `year`, `flipper_length_mm`, `body_mass_g`. These are whole number numerical variables without decimals.
 
 We can use the `summary()` function to give us a summary of the entire dataset which can be a useful way to identify outliers.
 
@@ -114,83 +167,35 @@ summary(penguins)
 ```
 
 
-We could  do this manually for a chosen variable using the `mean()` function from the `mosaic` package
-```{r mean-func, echo =TRUE}
-# mean weight
+How can we calculate just the mean body weight, `body_mass_g`? Here, our "goal" is to calculate the overall mean, which is easy to do using `mean()` function from the `mosaic` package. As you only want to calculate an overall mean, the structure of your function is:
+
+![](images/template_one_variable.png)
+
+so you don't need to put a name to the left of the **~** (tilde) symbol in the template. Have a go at coding this up, with the correct names for "goal", "variable_name" and "mydata":
+
+```{r mean-func, exercise = TRUE}
+
+```
+```{r mean-func-solution}
 mean(~body_mass_g, data = penguins)
 ```
 
-Looking at the outputs of `summary(penguins)` can you work out why the output of the above code gives NA
+The output shows NA (short for "not available" or "missing" data). Looking at the outputs of `summary(penguins)` you can see that there are a number of missing records. We can add an argument to the `mean()` function to tell it to remove the NA's and calculate statistics based on the data available. This extra argument is `na.rm = TRUE`. Try and modify your code to test this in the box below:
+ 
+```{r mean-narm, exercise = TRUE}
 
-```{r mean-q, echo=FALSE}
-question("Why does the above code return NA?",
-         answer("Because there are NA's in the dataset",
-                message = "There are NA's in the dataset but we are focused on just one variable at the moment"),
-         answer("Because there are NA's in the body mass variable", correct = TRUE),
-allow_retry = TRUE
-         )
+
 ```
- 
- We can add an argument to the function to tell it to remove the NA's and calculate statistics based on the data available
- 
-```{r mean-narm, echo = TRUE}
-
-# mean weight
+```{r mean-narm-solution}
+# mean weight with NA (missing) records ignored
 mean(~body_mass_g, data = penguins, na.rm=TRUE)
-
 ```
-
 
 From using the `summary()` function we can see that there are three different species of penguin in our dataset, whilst the above code gives us an indication of the overall mean often we want to compute those same statistics for each group to see if the groups differ from each other. This is where we can start to think about "templates" which give a single overall goal to what you are doing.
 
-## Think about your goal
-### The Most Important Template
-&nbsp;
-
-The following template is important because we can do so much with it.
-
-![](images/template_blank.png)
-
-### Template components
-It is useful to name the components of the template:
-
-![](images/template_filled.png)
-
-In general here you will have:
-
-* goal: calculate a summary statistic, do an analysis, create a graph
-* y ~ x: y is your response variable, x is your explanatory (see first lecture)
-* mydata: this is a `data.frame` with columns `x` and `y`
-
-We're hiding a bit of complexity in the template, and there will be times 
-that we will want to add some options, e.g. to handle missing data etc.  We'll indicate that by adding `...` to the end of the template.  Just don't let `...` become a distraction
-early on.
-
-![](images/template_with_options.png)
-Often you won't need to add options, but it depends on your data.
-
-### Other versions
-Here are some variations on the template that you might see
-```{r, eval = FALSE, echo=TRUE}
-# Goal only has one variable
-goal(~ x, data = mydata)
-
-# May want to group by another variable
-goal(y ~ x | z , data = mydata)
-
-# Might want to link in additional goals (usually for graphs)
-goal(y ~ x, data = mydata) %>% 
-  additional_goal()
-```
-
-In all these cases the word **`goal`** will be replaced by an R command to:
-
-* calculate a simple statistic
-* do a data analysis
-* create a graph.
 
 ## Using the template for simple statistics
-Here are goal is to calculate a simple summary statistic such as a mean or median. We can do this with the formula: 
+Here our goal is to calculate a simple summary statistic such as a mean or median. We can do this with the formula: 
 
 $$\text{statistic(variable ~ group, data = dataset, ...)}$$
 Where:
@@ -224,7 +229,7 @@ mean(~body_mass_g, data = penguins, na.rm=TRUE)
 **Hint** We can add additional grouping factors to the formula `statistic(variable ~ group1 + group2, data = dataset)`
 </div>
 
-Some of the most useful functions from the `mosaic` package are listed [here](https://rdrr.io/cran/mosaic/man/aggregating.html) , a particularly useful function you might want to checkout is `favstats()` that computes several statistics at once. 
+Some of the most useful functions from the `mosaic` package are listed [here](https://rdrr.io/cran/mosaic/man/aggregating.html) , a particularly useful function you might want to checkout is `favstats()` that computes several statistics at once. We will use `favstats()` in Practical 1 so you will see how it works.
 
 ```{r penguins-image, width=5, echo= FALSE, fig.cap="Artwork by @allison_horst"}
 
@@ -237,7 +242,7 @@ knitr::include_graphics("images/lter_penguins.png")
 
 Summary stats are a great starting point but to really understand what is going on with our data we need to visualize it. We are using data from the `datasauRus` R package, which has data with identical means, but very different appearances. It shows the importance of plotting data.
 
-Lets take a look at the below dataset, which is called `datasaurus_dozen` which has x and y values for different groups (recorded as the dataset variable) which are recorded as a character variable.
+Lets take a look at the below dataset, which is called `datasaurus_dozen` which has x and y values for different groups (recorded as the dataset variable) which are recorded as a character variable. Recall that character variables are text-based rather than numeric-based, and you can use the `str()` function to look at your data structure. See [Checking your data](#checking_your_data)
 
 ```{r, datasaurus_exercise-setup}
 datasaurus_dozen$dataset <- as.factor(datasaurus_dozen$dataset)
@@ -253,24 +258,28 @@ You can see that the table of data `datasaurus_dozen` contains three columns:
 * a `dataset` column, with 142 records in each. This is a categorical variable with 13 names listed above.
 * two continuous variables `x` and `y`.
 
-We will now calculate some summary statistics for `x` and `y` using `dataset` as a grouping variable.
+We will now calculate some summary statistics for `x` and `y` using `dataset` as a grouping variable. Notice how all the calculations for mean or standard deviation follow the same structure:
 
-```{r datasaurus, echo = TRUE}
-# mean and sd of x values in each group
-mean(x~dataset, data = datasaurus_dozen) 
-mean(y~dataset, data = datasaurus_dozen)
-
-# mean and sd of y values in each group
-sd(x~dataset, data = datasaurus_dozen)
-sd(y~dataset, data = datasaurus_dozen)
-```
-<div id="datasaurus-hint">
-**Hint** Remember the formula $$\text{statistic(variable ~ group, data= dataset)}$$ 
+<div id="datasaurus-structure">
+$$\text{statistic(variable ~ group, data= dataset)}$$ 
 </div>
 
+
+
+```{r datasaurus, echo = TRUE}
+# mean of x values in each group
+mean(x~dataset, data = datasaurus_dozen) 
+# mean of y values in each group
+mean(y~dataset, data = datasaurus_dozen)
+
+# sd of x values in each group
+sd(x~dataset, data = datasaurus_dozen)
+# sd of y values in each group
+sd(y~dataset, data = datasaurus_dozen)
+```
 It appears that for each `dataset` the summary statistics are the same for `x` and `y`. Every `dataset` group has the same mean and standard deviation for the `x` and `y`. Is this really a good reflection of what the datasets are like?? So is the data the same!!??
 
-Let us plot all the `x` and `y` values in one scatterplot, using the option `colour = ~dataset` to colour the points by `dataset` code:
+Let us plot all the `x` and `y` values in one scatterplot using the `gf_point()` function. We will use the option `colour = ~dataset` to colour the points by `dataset`.
 
 ```{r datasaurall, exercise=TRUE}
 gf_point(y~x, data = datasaurus_dozen, colour = ~dataset)
@@ -331,27 +340,25 @@ As well as some **numeric** variables:
   
 It is important to know what type of data we are dealing with as it will help us to decide what visualizations we might want to create.
 
-If you are unsure of what plot would be best for your data you can consult the internet, sites such as [data-to-vis](https://www.data-to-viz.com/) offer some useful insight into how to decide the most appropriate display for your data 
-
-```{r}
-knitr::include_graphics("images/data-to-viz.png")
-```
+If you are unsure of what plot would be best for your data, an excellent online resource is  [data-to-vis](https://www.data-to-viz.com/) which provides a flowchart to help make the best decision, and examples in R. 
 
 
-## Visualizing individual variables
+## Visualizing single variables
+
+Remember that a variable can be continuous numeric data (1.34, 5.87, 0.23 etc.) or categorical (SiteA, SiteA, SiteA, SiteB, SiteB, SiteC etc.). The way in which you may want to visualise these data is slightly different. Categorical variables are sometimes summarised in bar charts, but here we will focus on numeric data.
 
 ### Numeric data
 
-When investigating a numerical variable we might want to look at the distribution of values (we will talk more about why this is important in the summary statistics lesson) using plots which we could do in a variety of different ways. 
+When investigating a numerical variable we might want to look at the distribution of values (we will talk more about why this is important in Practical 1) using plots which we could do in a variety of different ways. We can use a the `gf_historgram()` function to produce a histogram which takes our numeric variable and cuts our data into "bins" and counts the frequency each value occurs in those bins.
 
 ```{r simple_histogram, exercise=TRUE}
 gf_histogram(~body_mass_g, data = penguins)
 ```
 
-Note that the plot also came with a warning message (remember we had a couple of data points with and NA value) just to let us know that there are some data that were missing and so aren't included in the plot because our plotting function didn't know where to put them.
+Note that the plot also came with a warning message (remember we had a couple of data points with an NA value) just to let us know that there are some data that were missing and so aren't included in the plot because our plotting function didn't know where to put them.
 Going forward these error messages have been hidden from the output so that we can focus purely on the visualizations but it is important to note why they appear. 
 
-Can you alter the below code to show a "density" plot rather than a "histogram"? 
+We can represent the distribution of values in another way by doing a density plot using `gf_density()` function. A density plot is similar to a histogram but the data are a smoothed version. Notice the y-axis has now changed and is showing a probability density instead but the interpretation of how those data are distributed is still the same. Try modifying the following code to use the `gf_density()` function to see the difference:
 
 ```{r penguin-density, exercise=TRUE, exercise.completion=FALSE}
 # density plot of penguin body mass 
@@ -365,24 +372,17 @@ gf_density(~body_mass_g, data= penguins)
 
 ```
 
+## Bar charts of counts or proportions
 
-### Categorical data
+### Bar chart with one categorical variable
 
-For categorical data we might want to look at how many observations of each category we have using a bar chart
+For categorical data we might want to look at how many observations of each category we have using a bar chart. A bar chart is a good way to look at the numeric values for categorical data. Each group is represented by a bar and there are gaps between bars which is a key distinction between a bar chart and histogram. Here we are just looking at a single categorical variable, `island`, and counting how many records we have for each island:
 
 ```{r simple_bar, exercise=TRUE}
 gf_bar(~island, data= penguins)
 ```
 
-
-## Visualizing multiple variables
-
-When visualizing multiple variables we might want to start introducing more shapes or colours into our plots, not only does this make the visualisation more interesting but it can help us to better understand patterns in the data.
-Remember that the formula for plotting two variables (one on each axis) is: 
-
-$$\text{plot type(variable_y ~ variable_x, data= dataset)}$$
-
-#### Comparing multiple categorical variables 
+### Bar charts with multiple categorical variables 
 
 We can take our bar chart that showed how many penguins were recorded on each island and we can add information about the species. Using the position argument we can create different plots that show similar information. 
 Run the code below to see the output, then change the position argument in the below code from `stack` to `dodge` and see what the different output looks like.
@@ -403,29 +403,120 @@ gf_props(~island, position= "stack",
          fill = ~species, data= penguins)
 ```
 
-This helps us to see that almost half of the data were collected on Biscoe island.
+By plotting proportional data, we can now see that nearly 50% of these penguin data have come from Biscoe Island. This is because the Biscoe Island bar is nearly at 0.5 which is 50%.
+
+## Bar charts and boxplots
+### More complex bar charts
+It is very common to add symbols, usually lines above and below each bar, to indicate the amount of variation in the data. Typically these represent the _standard error_ around the mean. There are better ways of displaying this type of data such as boxplots (see below) but as bar charts are so common and you may be asked to present one, this is how to do it in R. Suppose you want to display the mean weight of the different species of penguin +/- their standard error (SE). You need to create a table of data like this:
+
+```{r barchart_basics, exercise = TRUE}
+spp_favstats  <- favstats(body_mass_g ~ species, data = penguins)
+print(spp_favstats)
+```
+
+This gives us a column called `mean` containing the mean weight of each species (in g), and a column called `sd` with the standard deviation. Recall that you can calculate the SE by dividing the sd by the square root of the number of records, held in column `n`, simply as:
+
+```{r barchart_se_calc-setup}
+spp_favstats  <- favstats(body_mass_g ~ species, data = penguins)
+```
+
+```{r barchart_se_calc, exercise = TRUE}
+spp_favstats$se <- spp_favstats$sd / sqrt(spp_favstats$n)
+print(spp_favstats)
+```
+
+Now build up your barchart in steps. First create the barchart, using `gf_col()` which can accept any numeric variable on the left side of the `~` and expects a categorical variable on the right side. Here we have the mean weight on the left (continuous response) against the species (categorical explanatory):
+
+```{r barchart_simple-setup}
+spp_favstats  <- favstats(body_mass_g ~ species, data = penguins)
+spp_favstats$se <- spp_favstats$sd / sqrt(spp_favstats$n)
+```
+
+```{r barchart_simple, exercise = TRUE}
+gf_col(mean ~ species, data = spp_favstats)
+```
+
+Now, to add the standard error bar, we have to specify that we want a bar above (+) and below (-) the mean, using the `gf_error()` function, which we add to the plot:
+
+```{r barchart_se-setup}
+spp_favstats  <- favstats(body_mass_g ~ species, data = penguins)
+spp_favstats$se <- spp_favstats$sd / sqrt(spp_favstats$n)
+```
+
+```{r barchart_se, exercise = TRUE}
+gf_col(mean ~ species, data = spp_favstats) %>%
+  gf_errorbar((mean + se) + (mean - se) ~ species)
+```
+
+by default the error bars are a bit to wide, so use the `width` option to reduce their size, and smarten the plot with `gf_theme()`:
+
+```{r barchart_smarter-setup}
+spp_favstats  <- favstats(body_mass_g ~ species, data = penguins)
+spp_favstats$se <- spp_favstats$sd / sqrt(spp_favstats$n)
+```
+
+```{r barchart_smarter, exercise = TRUE}
+gf_col(mean ~ species, data = spp_favstats) %>%
+  gf_errorbar((mean + se) + (mean - se) ~ species, width = 0.2) %>% 
+  gf_theme(theme_classic())
+```
+
+### Boxplots
+One weakness of barplots is that they do not give a full understanding of the variation around the mean, especially as by default they start at zero, as in the above plot, which can make the error bars hard to see (depends on noise in your data sample size, n) and they don't show outliers, or whether the distribution is skewed. Boxplots are therefore the recommended alternative, and are easy to create from the raw data:
+
+```{r boxplot_example, exercise = TRUE}
+gf_boxplot(body_mass_g ~ species, data = penguins) %>% 
+  gf_theme(theme_classic())
+```
+
+This gives you a better understanding of the data: Adelie and Chinstrap penguins have lower body mass (although there are a couple of outliers in the latter). The distribution of data looks reasonably symmetrical for all three species. The horizontal line is your **median** value, 50% of your values fall within the box, and 75% within the 'whiskers', The dots are outliers. This diagram helps you understand what the lines and boxes represent in a boxplot <https://r-graph-gallery.com/boxplot>
+
+
+
+## Visualizing multiple variables
+
+When we have two or more variables that are quantitative data, we are often interested in the relationship between those variables. We can plot quantitative data (count data or measurements) together using the gf_point() function to get a scatterplot. In our pengiun data set, they have measured bill length and bill depth. We can look at the relationship between these two variables by plotting bill_depth_mm on the y-axis and bill_length_mm on the x-axis.
+
+Remember that the formula for plotting two variables (one on each axis) is: 
+
+$$\text{plot type(variable_y ~ variable_x, data= dataset)}$$
+
 
 #### Comparing numeric variables most usually involves plotting one against another.
 Run the code below to see what  the variables bill length and bill depth look like plotted against one another. 
-We can add additional information to this plot using the colour and shape arguments.
-Can you modify the below code to 
-
-  1. Colour the points according to Species
-  2. Size the points according to body mass
 
 ```{r penguin-bill, exercise=TRUE, exercise.completion=FALSE}
 gf_point(bill_depth_mm ~ bill_length_mm, 
          data= penguins)
 ```
 
+We can see from the scatterplot that there is a lot data here but the plotting doesn't distinguish between the species so we don't know if the relationship between bill_depth_mm and bill_length_mm is the same for each species. We can produce a more informative informative plot that clearly shows the trends within each species by adding colour.
 
-```{r penguin-bill-solution}
-# colour by species, size by body_mass
+```{r penguin-bill-colour, exercise = TRUE}
+# colour by species
 gf_point(bill_depth_mm ~ bill_length_mm, 
-         colour = ~species, size = ~body_mass_g, 
+         colour = ~species,  
          data= penguins)
-
 ```
+
+You have just created a plot which include colour and we can now see that there are differences in the relationship between bill_depth_mm and bill_length_mm for the different species. But we can make this figure tidier, more professional looking and get it "publication" ready.
+
+```{r penguin-bill-publication, exercise = TRUE}
+# colour by species
+gf_point(bill_depth_mm ~ bill_length_mm, 
+         colour = ~species,  
+         data= penguins) %>% 
+  gf_theme(theme_classic())
+```
+
+
+
+Can you modify the code to 
+
+  1. Colour the points according to Species
+  2. Size the points according to body mass
+
+(click the "Solution" button to get the answer, but try it yourself first!)
 
 Now we have an informative plot that clearly shows the trends within each species.
 You have just created a really sophisticated and informative plot.
@@ -569,11 +660,6 @@ gf_violin(body_mass_g~species, colour = ~species, alpha = 0.5,data = penguins) %
   gf_facet_wrap(~year)
   
 ```
-
-## Publication quality graphs
-
-You have now successfully created some informative plots that you could put straight into a report about penguins such as the [Paper](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0090081) that these data were originally published in. Have a think about what you have learnt and other plots you can produce.
-
 
 
 

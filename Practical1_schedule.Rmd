@@ -1,11 +1,11 @@
 ---
 title: 'Practical 1: Data import Summary and display'
-author: "BIO2020"
+author: "NES2303"
 output:
-  word_document:
-    number_sections: true
   html_document:
     df_print: paged
+    number_sections: true
+  word_document:
     number_sections: true
 ---
 
@@ -33,14 +33,14 @@ border:0px;
 
 
 ```{r, echo = FALSE, message=FALSE, warning= FALSE}
-library(bio2020)
+library(mosaic)
 ```
 
 # Aims and objectives of Practical 1
 The overall aim of this practical is to help you become more familiar with RStudio, and some basic summary statistics and visualisations. The specific objectives are to:
 
 1. how to calculate simple summary statistics of the data you have imported into R
-2. create of some simple summary plots to aid interpretation
+2. create some simple summary plots to aid interpretation
 3. show you how these graphs and tables of calculated statistics can be exported to Microsoft Word and Microsoft Excel
 
 We will primarily focus on two datasets:
@@ -54,23 +54,27 @@ We will primarily focus on two datasets:
 
 * `bivalve.csv` This contains the abundance of bivalves at two sites on four transects
 
-# Start RStudio, open your BIO2020 project, create R script
-If you did the first practical on 30th September 2022 this should be straightforward:
+Throughout this work you will be using the `mosaic` library, that you have already installed in "Practical 0", as it makes basic data summaries and graphics in R more straightforward
 
-* Click on the Windows command button (bottom left of screen), type in RStudio and start the software
-* Inside RStudio on the main menu click on **File -> Recent Projects -> BIO2020**
-* On the RStudio main menu click on **File -> New File -> R Script**
+# Before you start
+## Essential first steps before you do this practical
+If you did the first practical last week these should be straightforward:
 
-This should open a blank R script at the top left of your screen. Before you go any further, I suggest you type into your script a couple of lines of comments to explain what the script is being used for. As you will be using the `bio2020` R package you should also activate it. (If for any reason you were unable to install `bio2020` then use `mosaic` instead, but speak to a demonstrator first):
+1. Click on the Windows command button (bottom left of screen), type in RStudio and start the software. (If asked to upgrade etc. ignore)
+2. Inside RStudio on the main menu click on **File -> Recent Projects -> NES2303**
+3. Look at the top-right of the RStudio window. You should see 'NES2303' displayed. **If it says 'Project: (None)' then please speak to a demonstrator.**
+
+## Setting up a new R script to record your work
+Now, on the RStudio main menu click on **File -> New File -> R Script** This should open a blank R script at the top left of your screen. Before you go any further, I suggest you type into your script a couple of lines of comments to explain what the script is being used for. As you will be using the `mosaic` R package you should also "activate" it to make its extra commands available, using the `library()` function:
 
 ```{r, eval = FALSE}
 # Practical 1 : introduction to basic summary statistics and graphs using chick
 # and bivalve data.
 
-library(bio2020)
+library(mosaic)
 ```
 
-Position your cursor on `library(bio2020)` and hit the  <kbd>Ctrl</kbd> + <kbd>Enter</kbd>  key combination to send the command into the Console screen so that R executes it. You are likely to get several messages, but hopefully will see "Welcome to the BIO2020 package to support teaching". Finally, before you go further, save your R script. 
+Position your cursor on `library(mosaic)` and hit the  <kbd>Ctrl</kbd> + <kbd>Enter</kbd>  key combination to send the command into the Console screen so that R executes it. You are likely to get several "Warning" messages, but don't worry about these. Only be concerned if a red "Error" message appears. Finally, before you go further, save your R script. 
 
 * Look at the name of your R script. It is probably called `Untitled1.R`
 * Also notice that its name is in red and that there is an asterisk, or * symbol, after its name, indicating it needs to be saved
@@ -91,17 +95,17 @@ Whilst there are both biology and zoology students on this course, with a wide r
 9. Export any graphs or tables from R to Microsoft Word
 10. Write a report describing your findings
 
-One of the reasons why R is so popular is that it allows you to do **reproducible** research. Several weeks or even months may pass between your data analyses (steps 6 and 7), and writing your report (step 10) but your R script will provide a complete record of what you have done. Indeed, even the final report can be written in R, to automatically include relevant graphs, data analyses etc. All the Microsoft Word documents on the BIO2020 Canvas pages are actually written in RStudio, and auto-converted to Word, so I can skip Step 9 above!
+One of the reasons why R is so popular is that it allows you to do **reproducible** research. Several weeks or even months may pass between your data analyses (steps 6 and 7), and writing your report (step 10) but your R script will provide a complete record of what you have done. Indeed, even the final report can be written in R, to automatically include relevant graphs, data analyses etc. All the Microsoft Word documents on the NES2303 Canvas pages are actually written in RStudio, and auto-converted to Word, so I can skip Step 9 above!
 
 # Download and import data
 ## Download data files
-Go to Canvas and download `chick_diet.csv`, `chick_growth.csv` and `bivalves.csv` . Remember that when you download anything from a browser like Chrome or Edge, in general it will be stored in your "Downloads" folder. See the practical material for 30th September 2022 if you have forgotten the details. Therefore, before you can import the data, you need to copy it to your BIO2020 project folder:
+Go to Canvas and download `chick_diet.csv`, `chick_growth.csv` and `bivalves.csv` . Remember that when you download anything from a browser like Chrome or Edge, in general it will be stored in your "Downloads" folder. See the practical material from last week if you have forgotten the details. Therefore, before you can import the data, you need to copy it to your NES2303 project folder:
 
 * Start the File Explorer from the Windows main menu
 * Navigate to your downloads folder
 * Hold down the <kbd>Ctrl</kbd> key and with your mouse, left-click on `chick_diet.csv`, `chick_growth.csv` and `bivalves.csv`. Holding down the <kbd>Ctrl</kbd> allows you to select multiple files
 * Right click and select "Copy"
-* Navigate to your "BIO2020" folder, right-click in a blank area inside the BIO2020 folder and select "Paste"
+* Navigate to your "NES2303" folder, right-click in a blank area inside the NES2303 folder and select "Paste"
 
 You should now see the following:
 
@@ -109,12 +113,12 @@ You should now see the following:
 
 This folder now has quite a number of entries. Exact appearance may differ slightly, but the screenshot shows default Windows settings where the full name of a file is not displayed:
 
-* `BIO2020` (full name `BIO2020.RProj`). Your RStudio Project settings created in the previous practical
 * `bivalves`, `chick_diet` and `chick_growth` (full names `bivalves.csv`, `chick_diet.csv` and `chick_growth.csv`). The three data files in CSV format just downloaded from Canvas
+* `NES2303` (full name `NES2303.RProj`). Your RStudio Project settings created in the previous practical
 * `practical0` and `practical1` (full names `practical0.R` and `practical1.R`). Your "script" files containing a record of your R commands.
 * `yield` and `yield` with slightly different icons (full names `yield.csv` and `yield.xlsx`). The two data files you worked with in the initial practical, one in Microsoft Excel format, the other in CSV format
 
-**Where should you store your data files?** : For this course you should be fine storing your data in your BIO2020 project folder, as you will only have a relatively small number of files to work with. In general, however, it is better to create a "Data" subfolder, and store all your data files there. This leads to less clutter and helps you be more organised. If you use this idea, simply add `Data/` before the data file name when you use the `read.csv()` command.
+**Where should you store your data files?** For this course you should be fine storing your data in your NES2303 project folder, as you will only have a relatively small number of files to work with. In general, however, it is better to create a "Data" subfolder, and store all your data files there. This leads to less clutter and helps you be more organised. If you use this idea, simply add `Data/` before the data file name when you use the `read.csv()` command.
 
 ## Import your data into R
 Go to your R script, called `practical1.R`, and edit it so that it reads as follows. Your script **must** contain comments, blank lines, spaces around the `<-` assign symbol etc so that it is readable!!
@@ -123,14 +127,12 @@ Go to your R script, called `practical1.R`, and edit it so that it reads as foll
 # Practical 1 : introduction to basic summary statistics and graphs using chick
 # and bivalve data.
 
-library(bio2020)
+library(mosaic)
 
 # Read in data for chick diets and growth rates
 diet_dat <- read.csv("chick_diet.csv")
 growth_dat <- read.csv("chick_growth.csv")
 
-# Read in bivalve abundance data for 4 sites, 2 transects
-bivalves_dat <- read.csv("bivalves.csv")
 ```
 
 ```{r, echo = FALSE}
@@ -143,7 +145,7 @@ bivalves_dat <- read.csv("Data/bivalves.csv")
 ```
 
 
-Save your script by selecting **File -> Save** from the main RStudio menu. Next, position your mouse cursor on the first of the three `read.csv` lines, and hit the <kbd>Ctrl</kbd> + <kbd>Enter</kbd> key combinations several times to send the commands to the RStudio Console where they will be run. If you receive an error message, check you've copied the CSV files over from Downloads to your BIO2020 project folder, look for any spelling errors (R is case-sensitive too), check you've typed `read.csv` and not `read-csv`, make sure you've surrounded the CSV filenames with opening and closing `"` symbols, and finally ask a demonstrator.
+Save your script by selecting **File -> Save** from the main RStudio menu. Next, position your mouse cursor on the first of the three `read.csv` lines, and hit the <kbd>Ctrl</kbd> + <kbd>Enter</kbd> key combinations several times to send the commands to the RStudio Console where they will be run. If you receive an error message, check you've copied the CSV files over from Downloads to your NES2303 project folder, look for any spelling errors (R is case-sensitive too), check you've typed `read.csv` and not `read-csv`, make sure you've surrounded the CSV filenames with opening and closing `"` symbols, and finally ask a demonstrator.
 
 
 ## Check your data has been imported correctly
@@ -168,7 +170,7 @@ You should see summaries with minimum, maximum, median and means displayed for n
  2. How many variables (columns) and how many observations (rows) each dataset? 
  3. How heavy is the heaviest chicken? And is this the same in both of the chick datasets?
 
-**Reminder** Make sure to comment your script, using the `#` write some comments (notes) to annotate the script that you have just written so that you know what all the lines do, e.g.
+**Reminder** Make sure to comment your script, using the `#` write some comments (notes) to annotate the script that you have just written so that you know what all the lines do. NOTE THERE ARE ALSO BLANK LINES BETWEEN COMMANDS TO MAKE THE SCRIPT MORE READABLE!
 
 ```{r, eval = FALSE, echo= TRUE}
 # Display the first few lines of the chick diet data
@@ -185,7 +187,7 @@ str(diet_dat)
 
 # Summary statistics
 ## Goal-oriented approach
-Please have a look at the [Course Handbook](https://ncl.instructure.com/courses/23926/files/3203623?fd_cookie_set=1) on the Canvas website. You will see there that we are using a goal-oriented approach, where your goal can be a simple statistic, a data analysis or a graph. Let us start with some simple statistics on the `diet_dat` data. You will recall that in the goal-oriented approach we have:
+Please have a look at the **Course Handbook** on the Canvas website. You will see there that we are using a goal-oriented approach, where your goal can be a simple statistic, a data analysis or a graph. Let us start with some simple statistics on the `diet_dat` data. You will recall that in the goal-oriented approach we have:
 
 &nbsp;
 
@@ -217,7 +219,7 @@ where:
 
 + **simple statistic** = the statistic that we want to calculate, e.g. mean, median, sd, etc.
 + **chick weights** = the weight of the individual chicks on the different diets at the end of the 21 day study. This is your **_response_** variable.
-+ **diet** = the column describing which diet the chicks were fed. This is your **_explanatory_** variable as it should be obvious that diet might or might not determine chick weight, but the reverse is cannot true.
++ **diet** = the column describing which diet the chicks were fed. This is your **_explanatory_** variable as it should be obvious that diet might or might not determine chick weight, but the reverse  cannot true.
 + **diet_dat** = the table (data frame) of data containing the columns for chick weights and diets
 + **...** = options. This has been omitted as not needed in this first example
 
@@ -229,9 +231,9 @@ mean(weight ~ diet, data = diet_dat)
 median(weight ~ diet, data = diet_dat)
 ```
 
-The above two lines print the mean and median on the screen. If you do not remember the difference between means and medians, have a look at [Measures of Central Tendancy](https://naturalandenvironmentalscience.shinyapps.io/variation/#section-measures-of-central-tendency). You can also store the results of your mean and median in temporary variables `chick_mean` and `chick_med` for later re-use. Nothing is actually printed onto the screen when you store the data:
+The above two lines print the mean and median on the screen. If you do not remember the difference between means and medians, have a look at [Measures of Central Tendancy](https://naturalandenvironmentalscience.shinyapps.io/variation/#section-measures-of-central-tendency). You can also store the results of your mean and median in temporary variables `chick_mean` and `chick_med` for later re-use. Nothing is actually printed onto the screen when you store the data in `chick_mean` or `chick_med` variables but you can display it simply by entering the variable name in your script, or even the Console window (bottom left of RStudio) and hitting the Enter key:
 
-```{r, echo = TRUE}
+```{r, echo = TRUE, eval=TRUE}
 # Save means in temporary variable called chick_mean
 chick_mean <- mean(weight~diet, data = diet_dat)
 
@@ -239,12 +241,20 @@ chick_mean <- mean(weight~diet, data = diet_dat)
 chick_med <- median(weight~diet, data = diet_dat)
 ```
 
-Both median, and especially mean, can be sensitive to outliers: move the sliders on the [interactive graphs](https://naturalandenvironmentalscience.shinyapps.io/variation/#section-sensitivity-to-outliers) to make sure you understand the effects of outliers. To get a good understanding of our data we need to calculate some statistics that give us an idea of how our data is **spread** about the mean. If this is unfamiliar to you go back over other sections of the interactive website tutorial linked above.
+
+```{r, echo=TRUE, eval=FALSE}
+# Display the contents of your temporary variables
+chick_mean
+chick_med
+```
+
+
+Both median, and especially mean, can be sensitive to outliers: move the sliders on the [interactive graphs](https://naturalandenvironmentalscience.shinyapps.io/NES2303_SS/#section-sensitivity-to-outliers) to make sure you understand the effects of outliers. To get a good understanding of our data we need to calculate some statistics that give us an idea of how our data is **spread** about the mean. If this is unfamiliar to you go back over other sections of the interactive website tutorial linked above.
 
 Thankfully because we are doing our analysis in R we don't have to calculate measures such as variance, standard deviation and standard error by hand, we can use functions to help us.
 
 ## Calculate the variance and standard deviation for each diet
-Please look at [this explanation of variance, or var](https://naturalandenvironmentalscience.shinyapps.io/variation/#section-variance-correcting-ss-for-the-number-of-records) and [this explanation of standard deviation, or sd](https://naturalandenvironmentalscience.shinyapps.io/variation/#section-standard-deviation-correct-units) that introduce these measures of spread. If you do not understand variance and standard deviation, please speak to myself or pop a question into the relevant Microsoft Teams channel at this hyperlink: [Section 1 - summarising and displaying data](https://teams.microsoft.com/l/channel/19%3ab07e8c62b95f42fdb56497d54fe0e1d2%40thread.tacv2/Section%25201%2520-%2520summarising%2520and%2520displaying%2520data?groupId=d8c4adb1-b8dd-4f84-b57d-e4ed03b69652&tenantId=9c5012c9-b616-44c2-a917-66814fbe3e87)  Calculation is straightforward in R, using the functions `var()` and `sd()` and substituting them in as our "goals":
+Please look at [this explanation of variance, or var](https://naturalandenvironmentalscience.shinyapps.io/NES2303_SS/#section-variance-correcting-ss-for-the-number-of-records) and [this explanation of standard deviation, or sd](https://naturalandenvironmentalscience.shinyapps.io/NES2303_SS/#section-standard-deviation-correct-units) that introduce these measures of spread. If you do not understand variance and standard deviation, please speak to myself or one of the demonstrators. You can also use Microsoft Teams to send a message to all the demonstrators for advice.  Calculation is straightforward in R, using the functions `var()` and `sd()` and substituting them in as our "goals":
 
 ```{r}
 # calculate the variance in chick weights on each diet
@@ -257,7 +267,7 @@ sd(weight ~ diet, data = diet_dat)
 As before, rather than merely displaying these values on screen, we can put them into temporary R "objects" called  `chick_var` and `chick_sd` and assign the output of the `var()` and `sd()` functions to those objects. Again, the actual values are not displayed on screen when you store them in a temporary variable.
 
 ```{r}
-# calcualating variance for each group
+# calculating variance for each group
 chick_var <- var(weight ~ diet, data = diet_dat)
 
 #calculating standard deviation for each group
@@ -297,8 +307,18 @@ chick_se <- chick_sd/(sqrt(fav_dat$n))
 
 **Note:** It is important to modify your `Practical_1.R` script as you go along, adding additional comments using `#` symbols, so that if you come back after 6 months you will still understand the R script. Add some notes about the above commands as comments to demonstrate that you understand what each bit is doing.
 
+Finally, if you want to add your new `chick_se` variable onto the end of your `fav_dat` table as a new column, you can easily do this using the `cbind()` ("column bind") function. Notice how `fav_dat` is on both sides of the `<-` symbol as we are going to overwrite the old table with the new one:
+
+```{r}
+# Add the additional column of data to the table fav_dat
+fav_dat <- cbind(fav_dat, chick_se)
+# Display the revised table
+fav_dat
+```
+
+
 ## Assemble all your summary statistics into a new table 
-We have created summary statistics with mean, median, variance, standard deviation and standard error. It would be useful to put them all into one table, or data frame. This is easy to do using the (you guessed it!) `data.frame()` function:
+The `fav_dat` table contains rather a lot of information, some of which we don't need, and a more concise table would be useful. We have created summary statistics with mean, median, variance, standard deviation and standard error. It would be useful to put them all into one table, or data frame. This is easy to do using the (you guessed it!) `data.frame()` function:
 
  + `chick_mean`
  + `chick_med`
@@ -319,7 +339,15 @@ diet_stats
 ```
 
 
-Now you have a data frame `diet_stats` that contains summary statistics describing your dataset that might be useful in a report. 
+Now you have a data frame `diet_stats` that contains summary statistics describing your dataset that might be useful in a report. The different diet codes are actually stored in the "row names" of the `diet_stats` table. Sometimes you'll find it more useful to explicitly put these categorical variables into a column, especially when plotting data. This is easy to do:
+
+```{r}
+# Add a column that contains the diet codes currently stored as row names
+diet_stats$diet <- row.names(diet_stats)
+# Notice how the diet codes now also appear in a column
+diet_stats
+```
+
 
 # Basic summary plots
 ## Goal-oriented philosophy
@@ -373,19 +401,8 @@ gf_histogram(~weight, data=diet_dat)
 
 You can see that across all four diets combined, the most common chick weights are around 200g, although there is quite a lot of variation from less than 100g to over 350g.
 
-### Simple bar chart of total numbers of chicks per diet
-Here we want to create a simple bar chart showing the number of chicks in each of the four diets on day 21 (`diet_dat`). You may have noticed ealier that there are not quite the same number of chicks present after 21 days in each diet. We don't need to work out the count, as this will be calculated automatically by `gf_bar()` when you only give it one variable: 
-
-```{r, eval = TRUE}
-# Create a bar chart showing numbers of birds in each diet
-gf_bar(~diet, data = diet_dat) # Plot bar chart
-```
-
-So, survivorship appears to be best on diet A, and worst on diet D.
-
 ### Chain plot commands to improve graphs
 After you have created a basic plot, you will often want to improve it. I recommend do this sequentially, i.e. get your basic plot displayed, then gradually add extra lines of R code to improve it. Taking the above bar chart, the labels on the horizontal and vertical axes should be better. To chain a series of plot commands together we slightly tweak our original template to:
-
 
 &nbsp;
 
@@ -413,20 +430,29 @@ Let's begin by improving the axis labels, then getting rid of the miserable grey
 1. add the pipe symbol `%>%` to the end of your existing `gf_bar()` line
 2. indent the start of your `gf_labs()` line by a couple of spaces. RStudio should do this automatically - it makes your code more readable.
 
-```{r, echo = TRUE}
-# Create a bar chart showing numbers of birds in each diet
-gf_bar(~diet, data = diet_dat) %>% # Plot bar chart THEN
-  gf_labs( y = "Number of chicks (n)", x = "Experimental Diet") # Modify axis labels
+```{r}
+# Create a frequency histogram of chick weights
+gf_histogram(~weight, data=diet_dat) %>% 
+  gf_labs(x = "Chick weight (g)", y = "Number of birds")
 ```
 
-Finally, we will add an additional chain symbol `%>%` to modify or "refine" the "theme" or overall appearance using `gf_theme()`. Personally I like the "classic" theme, `theme_classic()`, which is a simple black-and-white one, although you might prefer the "minimal" theme, `theme_minimal()`:
+Next, we will add an additional chain symbol `%>%` to modify or "refine" the "theme" or overall appearance using `gf_theme()`. A good general theme you will find suitable for most of your work is the "classic" theme, `theme_classic()`, which is a simple yet clear style. I do **not** recommend the default miserable grey background for reports etc:
 
+```{r}
+# Create a frequency histogram of chick weights
+gf_histogram(~weight, data=diet_dat) %>% 
+  gf_labs(x = "Chick weight (g)", y = "Number of birds") %>% 
+  gf_theme(theme_classic())
+```
 
-```{r, eval = TRUE}
-# creating the bar chart 
-gf_bar(~diet, data = diet_dat) %>%  # Plot bar chart THEN
-  gf_labs( y = "Number of Chicks (n)", x = "Experimental Diet") %>% # Modify axis labels THEN
-  gf_theme(theme_classic()) # Change graph theme to remove grey backdrop
+### Smoothed density plots
+Often if your sample size is relatively small it can be difficult to understand the patterns in your frequency histogram. A simple solution is to create a smoothed probability "density" curve for your data, making the overall shape easier to understand. We can use the `gf_density()` function. The vertical axis contains probabilities for each possible weight, so the `gf_labs()` also needs updating:
+
+```{r}
+# Create a probability density plot of chick weights
+gf_density(~weight, data=diet_dat) %>% 
+  gf_labs(x = "Chick weight (g)", y = "Probability density") %>% 
+  gf_theme(theme_classic())
 ```
 
 Building up graphs from simple to more complex ones like this by "chaining" commands together is always most reliable. Save your `practical1.R` script before continuing. Remember to save your scripts regularly.
@@ -442,63 +468,35 @@ Let us create a boxplot to show chick weight after 21 days on the four different
 gf_boxplot(weight~diet, data = diet_dat)
 ```
 
-At the moment the axis labels are just `weight` and `Diet`. Try changing them into something more meaningful by "chaining" on an additional line that begins `gf_labs()`, so the vertical axis label reads "Weight (g)" as you should always include units where possible.
+At the moment the axis labels are just `weight` and `Diet`. Edit your code into something more meaningful by "chaining" on an additional line that begins `gf_labs()`, so the vertical y axis label reads "Weight (g)" as you must always include units where possible and the horizontal x-axis is "Experimental Diet". Once this works edit your plotting code to add a final, third line, that removes the grey background via `gf_theme()`. Please ask a demonstrator if you have problems.
 
-### Violin plots
-Violin plots have become a popular alternative to boxplots in the last 5 years. You can easily do this. Let's also overlay the points, change the y-axis label, and set the colours. In other words, we are going to:
+### Barcharts
+Barcharts are less useful than boxplots as they give a poorer indication of the spread of your data around the mean, but they are common in reports and you might be asked to create one. It is essential to display the means +/- SE or means +/- 95% CI on your bars (and state whether the error bars represent SE or CI in your figure caption!!). Unfortunately they are a bit more difficult to create than boxplots. Let's create a barchart for your mean chick weight data, with error bars. All the information is stored in your `diet_stats` table from earlier. We'll do this in stages, so keep editing and re-running the **same** section of R code so you can see the changes (you only want one barchart, not several):
 
-1. Alter the plot type from boxplot to violin plot
-2. Add data points that are shaped according to the diet the `gf_sina()` function will be useful
-3. Modify the labels so that the units (g) are displayed with the weight
-4. Modify the theme to match the bar plot you previously made
-
-Start with a very simple violin plot. Add the following lines to the end of your `practical1.R` script. Remember to hit the  <kbd>Ctrl</kbd> + <kbd>Enter</kbd> key combinations after each edit, so you can see what happens as you gradually edit your R script:
-
-```{r, eval=FALSE}
-# Create a violin plot showing distribution of chick weights on each diet
-gf_violin(weight ~ diet, data = diet_dat) 
-```
-
-Now add the individual data points using `gf_sina()` which creates a "jitter" around their positions so that they are easier to visualise, and hit the <kbd>Ctrl</kbd> + <kbd>Enter</kbd> key combinations to see the changes:
-
-```{r, eval=FALSE}
-# Create a violin plot showing distribution of chick weights on each diet
-gf_violin(weight~diet, data = diet_dat) %>%  # THEN
-  gf_sina()                                  # add jittered points
-```
-
-Now change the y-axis label, using `gf_labs()` as before, and hit the <kbd>Ctrl</kbd> + <kbd>Enter</kbd> key combinations:
-
-```{r, eval=FALSE}
-# Create a violin plot showing distribution of chick weights on each diet
-gf_violin(weight~diet, data = diet_dat) %>%   # THEN
-  gf_sina() %>%                               # add jittered points THEN
-  gf_labs(y = "Weight (g)")                   # change the vertical axis label
-```
-
-Next, smarten up the overall "theme" of the plot with `gf_theme()` and hit the <kbd>Ctrl</kbd> + <kbd>Enter</kbd> key combinations:
-
-```{r, eval=FALSE}
-# Create a violin plot showing distribution of chick weights on each diet
-gf_violin(weight~diet, data = diet_dat) %>%     # THEN
-  gf_sina() %>%                                 # add jittered points THEN
-  gf_labs(y = "Weight (g)") %>%                 # change the vertical axis label THEN
-  gf_theme(theme_classic())                     # set theme 
-```
-
-Finally, colour in the violin shapes with a colour of your choosing via the `fill` option (I'm going to use grey) and set its transparency with the `alpha` option. Play around with the arguments `fill` and `alpha`: play around with them to see what they do.
-
-You should end up with a plot that looks like the one below
+First, the barchart to show the mean weights vs diet. Remember the mean weight is your "response" variable and so goes to the left of your `~` symbol. The `gf_col()` function creates the bars:
 
 ```{r}
-# Create a violin plot showing distribution of chick weights on each diet
-gf_violin(weight~diet, fill="grey", alpha = 0.3, data = diet_dat) %>%       # THEN
-  gf_sina() %>%                                 # add jittered points THEN
-  gf_labs(y = "Weight (g)") %>%                 # change the vertical axis label THEN
-  gf_theme(theme_classic())                     # set theme 
+gf_col(chick_mean ~ diet, data = diet_stats) %>% 
+  gf_theme(theme_classic())
 ```
 
-Hopefully you can see that it is possible to build complex plots step-by-step in this manner.
+Now we add the standard errors, held in the `chick_se` column, using `gf_error()`. This needs to know where we are putting the errors, i.e. both above (`chick_mean + chick_se`) and below (`chick_mean - chick_se`) the mean chick weight. By default the error bars are the full width of each bar, which is too wide, so we'll make them smaller with `width=` option:
+
+```{r}
+gf_col(chick_mean ~ diet, data = diet_stats) %>% 
+  gf_errorbar((chick_mean + chick_se) + (chick_mean - chick_se) ~ diet, width = 0.25) %>% 
+  gf_theme(theme_classic())
+```
+
+Finally, edit your code again to provide proper axis labels. Note that we add the information that we are displaying SE to the vertical axis.
+
+```{r}
+gf_col(chick_mean ~ diet, data = diet_stats) %>% 
+  gf_errorbar((chick_mean + chick_se) + (chick_mean - chick_se) ~ diet, width = 0.25) %>% 
+  gf_labs(y = "Mean Chick Weight (g) +/- SE", x = "Experimental Diet") %>% 
+  gf_theme(theme_classic())
+```
+
 
 ## Plot two variables; continuous horizontal axis
 In the previous example the horizontal axis was divided into discrete categories. Often your horizontal axis will be continuous, and line or point plots will be most useful. Let's begin by plotting your chick growth data with `growth_dat` day from day 0 (hatching) to day 21 on the horizontal axis, and weight on the vertical axis. **Note** Remember to leave a few blank lines in your `practical1.R` script before beginning this plot. Hit the <kbd>Ctrl</kbd> + <kbd>Enter</kbd> key combinations to execute the code after each edit to understand the changes:
@@ -508,12 +506,14 @@ In the previous example the horizontal axis was divided into discrete categories
 gf_point(weight~time, data=growth_dat)
 ```
 
-You can see that the chicks get heavier with time, as expected. The problem with this graph is that it does not indicate that we actually have four different diets. So let's colour the points accordingly:
+You can see that the chicks get heavier with time, as expected. The problem with this graph is that it does not indicate that we actually have four different diets. So let's colour the points accordingly. Remember that diet is another *explanatory* variable; we have two explanatories we want to visualise, `time` and `diet`. So rather than putting `colour = diet` we use `colour = ~diet` to indicate that it is explanatory with the `~` or "tilde" symbol:
 
 ```{r}
 # Scatterplot of change in chick weight over time, coloured by diet
 gf_point(weight~time, colour = ~diet, data=growth_dat)
 ```
+
+Note that writing `gf_point(weight~time + diet, data=growth_dat)` will give an error as `gf_point()` would not know whether to put `time` or `diet` on the x-axis. 
 
 Next, let's join up the points with lines, by chaining into the `gf_line()` function:
 
@@ -532,7 +532,7 @@ gf_line(weight~time, colour = ~diet, data = growth_dat) %>% # THEN
   gf_theme(theme_classic())
 ```
 
-Later in the BIO2020 course you will learn how to create fitted lines from models to add to your graphs.
+Later in the NES2303 course you will learn how to create fitted lines from models to add to your graphs.
 
 # Export data and plots from R/RStudio to Word or Excel
 ## Exporting tables of data
@@ -562,14 +562,23 @@ Make sure you save `Practical_1.R` using the **File -> Save** options from the m
 # Getting help
 I have put some useful guides to online books on the Canvas website, but there are some excellent online tutorials available, including [Coding Club](https://ourcodingclub.github.io/) which has been written by students for students. It does cover lots of advanced stuff (I don't understand it all) as well as the basics of R.
 
-R has its own built in help for functions. These are difficult to understand at first, but as the format is identical in every case they slowly become less daunting. To access the in-built help, put a `?` symbol into the console, followed by the name of the function. For example, in the R package `bio2020` I have written a function called `ordi_identify()` which you will learn how to use in Practical 6. If you wanted to view its help, you would type **in the Console window** (bottom left of RStudio) the following, and hit the <kbd>Enter</kbd> key:
+R has its own built in help for functions. These are difficult to understand at first, but as the format is identical in every case they slowly become less daunting. To access the in-built help, put a `?` symbol into the console, followed by the name of the function. For example, in the R package `mosaic` is the `favstats` function to calculate common summary statistics. If you wanted to view its help, you would type **in the Console window** (bottom left of RStudio) the following, and hit the <kbd>Enter</kbd> key:
 
 ```{r, eval=FALSE}
-?ordi_identify
+?favstats
 ```
 
-# Bivalves data
-You have already learnt a lot of key skills. We're now going to learn how to create a barchart based on the `bivalves_dat` dataset you imported earlier. This shows the mean numbers of bivalves (+/- standard error bars) at each site, colour-coded for each treatment:
+which will display the help for all the "aggregating" summary statistics functions (`mean`, `median`, `sd` etc.) as well as `favstats`.
+
+# Bivalves data (in your own time)
+## The problem: create coloured bar chart with error bars
+This exercise builds on some of the material you have already learnt, and will give you greater confidence in your use of key skills in R for summary statistics and data visualisation. Import the CSV file into a `bivalves_dat` table in the usual way with `read.csv()`:
+
+```{r, echo=TRUE, eval=FALSE}
+bivalves_dat <- read.csv("bivalves.csv")
+```
+
+If you wish, try and calculate the additional summary statistics and create the graphs for the abundance of bivalves along two transects at four sites. We're now going to learn how to create a barchart based on the `bivalves_dat` dataset you imported earlier. This shows the mean numbers of bivalves (+/- standard error bars) at each site, colour-coded for each treatment:
 
 ```{r, echo = FALSE}
 bivalves_mean <- mean(abundance ~ site + transect, data=bivalves_dat)
@@ -590,17 +599,20 @@ gf_col(bv_mean ~ site, fill= ~transect,
 
 ```
 
+
+## Begin with a boxplot
 Boxplots are much easier to create than barcharts, but you need to know how to make both types. Begin by creating a boxplot as shown below. **Hints**:
 
 * Your dataset is called `bivalves_dat`
 * The `gf_boxplot()` function can create a boxplot
-* Remember to set the `colour` option correctly
+* Remember to set the `colour` option correctly using the `~` symbol to indicate that `transect` is a response variable
 * You only need one line of code; no need to "pipe"
 
-```{r, echo=FALSE}
+```{r, echo=TRUE}
 gf_boxplot(abundance ~ site, colour= ~transect, data=bivalves_dat)
 ```
 
+## Create a table for barchart dataset
 Creating the bar chart is more complicated, therefore I'll talk you through the steps. You need to make a table (data frame) of 8 rows, one for each bar, that contains the mean abundance, the standard error, the transect, and the site code:
 
 ```{r, echo=FALSE}
@@ -621,7 +633,7 @@ Next, using your existing skills:
 * use the `favstats()` function with both `site` and `transect` as explanatories to create a table called `bivalves_fav` that contains columns of summary statistics, including a column called `n` which stores the numbers of observations at each site and transect
 * calculate `bivalves_se` by dividing `bivalves_sd` by the square root of the number of observations. **Hint** use the `sqrt()` function and `bivalves_fav$n` to access the column `n`
 
-```{r echo=FALSE}
+```{r echo=TRUE}
 bivalves_fav  <- favstats(abundance ~ site + transect, data=bivalves_dat)
 bivalves_se   <- bivalves_sd / sqrt(bivalves_fav$n)
 ```
@@ -641,7 +653,10 @@ bivalves_stats <- data.frame(bv_mean = bivalves_mean,
                              site = c("A", "B", "C", "D", "A", "B", "C", "D"))
 ```
 
-Check the contents of your `bivalves_stats` table to make sure it matches what is displayed above (either double-click on it in your RStudio Environment window at the top-right, or print it to the Console). We will use a stepwise approach to building your bar chart. First, a simple barplot:
+Check the contents of your `bivalves_stats` table to make sure it matches what is displayed above (either double-click on it in your RStudio Environment window at the top-right, or print it to the Console).
+
+## Create a simple stacked barchart
+We will use a stepwise approach to building your bar chart. First, a simple barplot:
 
 ```{r}
 gf_col(bv_mean ~ site, data = bivalves_stats)
@@ -654,13 +669,17 @@ but this ignores transect, as we want the data for each site displayed for each 
 gf_col(bv_mean ~ site, fill= ~transect, data = bivalves_stats)
 ```
 
-The problem here is that this is a 'stacked' barchart: these are also popular in science, but is not what we want here. So we'll use the `position_dodge` option to move the bars side-by-side:
+The problem here is that this is a 'stacked' barchart: these are also popular in science, but is not what we want here. We want the coloured bars that represent each transect side-by-side. 
+
+## "Dodge" the bars side-by-side
+Putting the coloured bars for each transect side by side is called "dodging" the bars. So we'll use the `position_dodge` option to move the bars side-by-side:
 
 ```{r}
 gf_col(bv_mean ~ site, fill= ~transect,
        position=position_dodge(), data = bivalves_stats)
 ```
 
+## Add error bars
 Now we can add the error bars using the `gf_errorbar` function. We have to express both the error bar above and below the line, and that this is being done by `site`. So we include two little subtractions and additions to the `gf_errorbar` function to indicate that our standard error is above and below the mean:
 
 ```{r}
@@ -687,4 +706,5 @@ gf_col(bv_mean ~ site, fill= ~transect,
               position=position_dodge(0.9), width = 0.2)
 ```
 
+## Final steps
 The final steps I will leave to you - try and tidy up the axis labels, and change the theme of the plot to remove the grey background.
