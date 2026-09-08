@@ -48,7 +48,7 @@ border:0px;
 library(mosaic)
 ```
 
-# Aims and objectives of Practical 1
+# Learning Objectives
 The overall aim of this practical is to help you become more familiar with RStudio, and some basic summary statistics and visualisations. The specific objectives are to:
 
 1. how to calculate simple summary statistics of the data you have imported into R
@@ -64,7 +64,7 @@ We will primarily focus on two datasets:
 
 **Bivalve data**
 
-* `bivalve.csv` This contains the abundance of bivalves at two sites on four transects
+* `bivalve.csv` This contains the abundance of bivalves at two marine (coastal) sites on four transects
 
 Throughout this work you will be using the `mosaic` library, that you have already installed in "Practical 0", as it makes basic data summaries and graphics in R more straightforward
 
@@ -83,6 +83,7 @@ Now, on the RStudio main menu click on **File -> New File -> R Script** This sho
 # Practical 1 : introduction to basic summary statistics and graphs using chick
 # and bivalve data.
 
+# Activate the mosaic package
 library(mosaic)
 ```
 
@@ -114,49 +115,50 @@ One of the reasons why R is so popular is that it allows you to do **reproducibl
 Go to Canvas and download `chick_diet.csv`, `chick_growth.csv` and `bivalves.csv` . Remember that when you download anything from a browser like Chrome or Edge, in general it will be stored in your "Downloads" folder. See the practical material from last week if you have forgotten the details. Therefore, before you can import the data, you need to copy it to your NES2504 project folder:
 
 * Start the File Explorer from the Windows main menu
-* Navigate to your downloads folder
+* Navigate to your **Downloads** folder
 * Hold down the <kbd>Ctrl</kbd> key and with your mouse, left-click on `chick_diet.csv`, `chick_growth.csv` and `bivalves.csv`. Holding down the <kbd>Ctrl</kbd> allows you to select multiple files
 * Right click and select "Copy"
-* Navigate to your "NES2504" folder, right-click in a blank area inside the NES2504 folder and select "Paste"
-* **NOTE** You may prefer to have a subfolder called `Data` inside `NES2504`. If so, remember to add a `Data\` prefix to the file names in your `read.csv` functions below.
+* Navigate to your **NES2504/Data** folder, right-click in a blank area inside the **NES2504/Data** folder and select "Paste"
 
-You should now see the following:
+You should now see the following inside your **NES2504/Data** folder:
 
-![](images/practical1_files.png)
+![](images/nes2504_data_folder.png)
 
 This folder now has quite a number of entries. Exact appearance may differ slightly, but the screenshot shows default Windows settings where the full name of a file is not displayed:
 
 * `bivalves`, `chick_diet` and `chick_growth` (full names `bivalves.csv`, `chick_diet.csv` and `chick_growth.csv`). The three data files in CSV format just downloaded from Canvas
-* `NES2504` (full name `NES2504.RProj`). Your RStudio Project settings created in the previous practical
-* `practical0` and `practical1` (full names `practical0.R` and `practical1.R`). Your "script" files containing a record of your R commands.
 * `yield` and `yield` with slightly different icons (full names `yield.csv` and `yield.xlsx`). The two data files you worked with in the initial practical, one in Microsoft Excel format, the other in CSV format
 
-**Where should you store your data files?** For this course you should be fine storing your data in your NES2504 project folder, as you will only have a relatively small number of files to work with. In general, however, it is better to create a "Data" subfolder, and store all your data files there. This leads to less clutter and helps you be more organised. If you use this idea, simply add `Data/` before the data file name when you use the `read.csv()` command.
+You may also have a couple of other files displayed if you have already completed the Session 0 "In your own time" exercise on managing difficult Excel formats. Inside the **NES2504** folder you should now see something similar to:
+
+![](images/nes2504_folder.png)
+which probably contains:
+
+* `Data` the subfolder shown above with your CSV files
+* `NES2504` (full name `NES2504.RProj`). Your RStudio Project settings created in the previous practical
+* `practical0` and `practical1` (full names `practical0.R` and `practical1.R`). Your "script" files containing a record of your R commands.
+
+If you see other files called **.Rhistory** and **.RData** you can delete them as they are not needed.
+
+**Where should you store your data files?** Some users put their R scripts and their data files in the same folder. However, it can quickly get confusing having a mixture of R scripts, CSV files and Excel files all jumbled together, so we recommend you store your CSV and Excel files in the `Data/` subfolder.
 
 ## Import your data into R
-Go to your R script, called `practical1.R`, and edit it so that it reads as follows. Your script **must** contain comments, blank lines, spaces around the `<-` assign symbol etc so that it is readable!!
+Go to your R script, called `practical1.R`, and edit it so that it reads as follows. Your script **must** contain a title, comments, blank lines, spaces around the `<-` assign symbol etc so that it is readable!!
 
-```{r, eval = FALSE}
+```{r}
 # Practical 1 : introduction to basic summary statistics and graphs using chick
 # and bivalve data.
 
+# Activate the mosaic package
 library(mosaic)
 
-# Read in data for chick diets and growth rates
-diet_dat <- read.csv("chick_diet.csv")
-growth_dat <- read.csv("chick_growth.csv")
-
-```
-
-```{r, echo = FALSE}
 # Read in data for chick diets and growth rates
 diet_dat <- read.csv("Data/chick_diet.csv")
 growth_dat <- read.csv("Data/chick_growth.csv")
 
-# Read in bivalve abundance data for 4 sites, 2 transects
+# Read in bivalve abundance data for 4 marine sites, 2 transects
 bivalves_dat <- read.csv("Data/bivalves.csv")
 ```
-
 
 Save your script by selecting **File -> Save** from the main RStudio menu. Next, position your mouse cursor on the first of the three `read.csv` lines, and hit the <kbd>Ctrl</kbd> + <kbd>Enter</kbd> key combinations several times to send the commands to the RStudio Console where they will be run. If you receive an error message, check you've copied the CSV files over from Downloads to your NES2504 project folder, look for any spelling errors (R is case-sensitive too), check you've typed `read.csv` and not `read-csv`, make sure you've surrounded the CSV filenames with opening and closing `"` symbols, and finally ask a demonstrator.
 
@@ -213,9 +215,9 @@ Please have a look at the **Course Handbook** on the Canvas website. You will se
 where:
 
 + **goal** = What you want to do; a statistical summary, data analysis, or graph
-+ **variable** = the name of the column containing the response variable
-+ **group** = the name of the column containing an explanatory variable
-+ **dataset** = the table of data (data frame) you are using
++ **y** = the name of the column containing the **response** variable
++ **x** = the name of the column containing an **explanatory** variable
++ **mydata** = name of your table of data, known in R as a **data.frame**
 + **...** = options
 
 We can calculate some summary statistics to see if there are differences between chicks being fed different diets. So we can attempt our goal-oriented diagram to:
@@ -233,7 +235,7 @@ where:
 + **statistic** = the statistic that we want to calculate, e.g. mean, median, sd, etc.
 + **chick weights** = the weight of the individual chicks on the different diets at the end of the 21 day study. This is your **_response_** variable.
 + **diet** = the column describing which diet the chicks were fed. This is your **_explanatory_** variable as it should be obvious that diet might or might not determine chick weight, but the reverse  cannot true.
-+ **diet_dat** = the table (data frame) of data containing the columns for chick weights and diets
++ **diet_dat** = the table (data.frame) of data containing the columns for chick weights and diets
 + **...** = options. This has been omitted as not needed in this first example
 
 We can now replace the "statistic" above with what we want to calculate, and use the correct names `weight` and `diet` for the two columns in `diet_dat`. Add the following lines to the end of your `practical1.R` script and execute them:
@@ -377,7 +379,7 @@ We can use exactly the same goal-oriented philsophy when developing graphs as wi
 + **Plot type** = This is your "goal", in other words a graph.
 + **Variable y** = (optional) The value to be plotted on the vertical y-axis, usually your "response" variable
 + **Variable x** = Value plotted on horizontal axis, usually your "explanatory" variable, either categorical or continuous
-+ **Dataset** = Typically a table (data frame)
++ **mydata** = An R table of data `data.frame` that contains the x and y in columns
 + **...** = Options to control colours, groupings etc.
 
 Here your y-variable is plotted on the vertical axis, and your x-variable on the horizontal axis. There may also be times when you only want to plot **one** variable, for example a frequency histogram, or a count of the number of observations. In this case the pattern is as follows, with the `variable` plotted on the horizontal axis, and the vertical axis (e.g. frequency or count) calculated automatically:
@@ -578,7 +580,7 @@ The arguments of the `write.csv()` function are the name of the `object` that yo
 
 ```{r, eval = FALSE}
 # note that the file path specifies that the file should be created in the Data folder
-write.csv(diet_stats, "chick_summary.csv")
+write.csv(diet_stats, "Data/chick_summary.csv")
 ```
 
 You should now see the `chick_summary.csv` file that you have just created in your File Explorer, you can open the file in Excel and use this to create a table that you can import into a Microsoft Word document. 
@@ -593,16 +595,14 @@ Finally open a Word document and insert the plots and summary table giving each 
 # Save your `practical1.R` script before you exit RStudio
 Make sure you save `Practical_1.R` using the **File -> Save** options from the main RStudio menu. It is good practice to save your script regularly anyway, in case RStudio crashes for any reason. It usually autosaves, but best to be on the safe side when working.
 
-# Getting help
-I have put some useful guides to online books on the Canvas website, but there are some excellent online tutorials available, including [Coding Club](https://ourcodingclub.github.io/) which has been written by students for students. It does cover lots of advanced stuff (I don't understand it all) as well as the basics of R.
+# Take home messages from today's practical
+Working in RStudio can seem challenging at first, but adhering to some basic guidelines helps build cleaner workflows:
 
-R has its own built in help for functions. These are difficult to understand at first, but as the format is identical in every case they slowly become less daunting. To access the in-built help, put a `?` symbol into the console, followed by the name of the function. For example, in the R package `mosaic` is the `favstats` function to calculate common summary statistics. If you wanted to view its help, you would type **in the Console window** (bottom left of RStudio) the following, and hit the <kbd>Enter</kbd> key:
-
-```{r, eval=FALSE}
-?favstats
-```
-
-which will display the help for all the "aggregating" summary statistics functions (`mean`, `median`, `sd` etc.) as well as `favstats`.
+* Store your R scripts separate from your CSV or Excel files, putting the latter in a `Data` subfolder
+* Use the goal-oriented approach to help you code both simple statistics and plots
+* When creating plots, begin with a simple plot, of e.g. response and explanatory variables only. If creating frequency histograms or density plots, you only need to include one variable.
+* Once you have created a simple plot, use the "pipe" symbol **%>%** to indicate "THEN" to add extra lines below,
+indenting the code, to improve axis labels, colours, error bars, overall "theme" etc.
 
 # Bivalves data (in your own time)
 ## The problem: create coloured bar chart with error bars
